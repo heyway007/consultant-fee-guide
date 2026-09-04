@@ -50,11 +50,6 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
             />
           </div>
         </label>
-        {hasFilters ? (
-          <button className="clear-button" type="button" onClick={() => onChange({ query: "", professionalGroup: "all", experience: "all", degree: "all" })}>
-            ล้างตัวกรอง
-          </button>
-        ) : null}
       </div>
       <div className="filter-grid">
         <label>
