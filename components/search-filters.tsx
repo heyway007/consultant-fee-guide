@@ -37,7 +37,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
         <div>
           <h2>ค้นหาอัตราที่ต้องการ</h2>
         </div>
-        <label className="search-field filter-search-field">
+        <label className="search-field filter-search-field filter-span-all">
           <span>คำค้น</span>
           <div className="input-with-icon">
             <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" aria-hidden="true" />
