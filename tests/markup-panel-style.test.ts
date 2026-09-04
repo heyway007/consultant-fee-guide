@@ -8,5 +8,7 @@ describe("Markup Factor panel layout", () => {
   it("sticks beside long tables and returns to normal flow on smaller screens", () => {
     expect(stylesheet).toMatch(/\.markup-panel\s*\{[^}]*position:\s*sticky/);
     expect(stylesheet).toContain(".markup-panel { order:2; position:static; }");
+    expect(stylesheet).toContain(".markup-condition-layout");
+    expect(stylesheet).toContain(".markup-calculator");
   });
 });

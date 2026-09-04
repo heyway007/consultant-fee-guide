@@ -69,6 +69,16 @@ export default function Home() {
   const selectedGroup = requestedGroup === "all" || groups.includes(requestedGroup) ? requestedGroup : (groups[0] ?? "");
   const hasSearchCriteria = Boolean(filters.query.trim() || filters.professionalGroup !== "all" || filters.experience !== "all");
   const visibleRows = selectVisibleRows(data.rates, groupedRows, selectedGroup, filters);
+  const selectedBaseRate = useMemo(() => {
+    if (selectedGroup === "all" || filters.degree === "all" || filters.experience === "all") return null;
+
+    const row = groupedRows.get(selectedGroup)?.find((item) => String(item.experience_years) === filters.experience);
+    if (!row) return null;
+
+    if (filters.degree === "bachelor") return row.bachelor_rate;
+    if (filters.degree === "master") return row.master_rate;
+    return row.doctorate_rate;
+  }, [filters.degree, filters.experience, groupedRows, selectedGroup]);
   const updateUrl = (nextGroup: string) => {
     const params = new URLSearchParams(window.location.search);
     if (nextGroup) params.set("group", nextGroup); else params.delete("group");
@@ -99,7 +109,7 @@ export default function Home() {
             <div className="results-heading"><div><p className="eyebrow">{hasSearchCriteria ? "ผลการค้นหา" : "ตารางอัตราเงินเดือนพื้นฐาน"}</p><h2>{hasSearchCriteria ? "รายการที่ตรงกับเงื่อนไข" : selectedGroup || "กำลังเตรียมข้อมูล"}</h2></div><span className="result-count">{numberFormatter.format(visibleRows.length)} แถว</span></div>
             {isLoading ? <div className="loading-box"><span className="loading-spinner" aria-hidden="true" />กำลังโหลดข้อมูลจากแหล่งข้อมูล...</div> : error ? <div className="error-box"><strong>เกิดข้อผิดพลาดในการโหลดข้อมูล</strong><span>{error}</span><button type="button" className="primary-button" onClick={() => void loadData()}>ลองใหม่</button></div> : visibleRows.length > 0 ? <RateTable rows={visibleRows} selectedDegree={filters.degree} /> : <EmptyState onReset={resetFilters} />}
           </section>
-          <MarkupPanel factors={data.markupFactors} degree={filters.degree} experience={filters.experience} />
+          <MarkupPanel factors={data.markupFactors} degree={filters.degree} experience={filters.experience} baseRate={selectedBaseRate} />
         </div>
       </section>
       <footer className="site-footer"><span>ข้อมูลอ้างอิง: หลักเกณฑ์ราคากลางการจ้างที่ปรึกษา</span><span>แสดงเพื่อช่วยค้นหาและเปรียบเทียบข้อมูล</span></footer>
