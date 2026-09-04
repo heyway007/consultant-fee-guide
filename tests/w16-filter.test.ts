@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { W16RateRow } from "@/lib/types";
-import { filterRateRows, groupRateRows } from "@/lib/w16-filter";
+import { filterRateRows, groupRateRows, selectVisibleRows } from "@/lib/w16-filter";
 
 const rows: W16RateRow[] = [
   {
@@ -67,5 +67,19 @@ describe("groupRateRows", () => {
   it("sorts each group by numeric experience", () => {
     const groups = groupRateRows(rows);
     expect(groups.get("วิศวกรรมโยธา")?.map((row) => row.experience_years)).toEqual([1, 5]);
+  });
+});
+
+describe("selectVisibleRows", () => {
+  it("returns rows from every professional group when the all view is active", () => {
+    const groupedRows = groupRateRows(rows);
+    const result = selectVisibleRows(rows, groupedRows, "all", {
+      query: "",
+      professionalGroup: "all",
+      experience: "all",
+      degree: "bachelor",
+    });
+
+    expect(result.map((row) => row.id)).toEqual(["civil-1", "civil-5", "architecture-5"]);
   });
 });

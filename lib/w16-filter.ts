@@ -30,3 +30,16 @@ export function groupRateRows(rows: W16RateRow[]): Map<string, W16RateRow[]> {
 
   return groups;
 }
+
+export function selectVisibleRows(
+  rows: W16RateRow[],
+  groupedRows: Map<string, W16RateRow[]>,
+  activeGroup: string,
+  filters: W16Filters,
+): W16RateRow[] {
+  const hasSearchCriteria = Boolean(filters.query.trim() || filters.professionalGroup !== "all" || filters.experience !== "all");
+
+  if (hasSearchCriteria) return filterRateRows(rows, filters);
+  if (activeGroup === "all") return Array.from(groupedRows.values()).flat();
+  return groupedRows.get(activeGroup) ?? [];
+}

@@ -7,6 +7,17 @@ type ProfessionalTabsProps = {
 export default function ProfessionalTabs({ groups, activeGroup, onChange }: ProfessionalTabsProps) {
   return (
     <div className="professional-tabs" role="tablist" aria-label="กลุ่มวิชาชีพ">
+      <button
+        className={`professional-tab ${activeGroup === "all" ? "is-active" : ""}`}
+        type="button"
+        role="tab"
+        aria-selected={activeGroup === "all"}
+        tabIndex={activeGroup === "all" ? 0 : -1}
+        onClick={() => onChange("all")}
+      >
+        <span className="tab-index">00</span>
+        ทุกกลุ่มวิชาชีพ
+      </button>
       {groups.map((group, index) => (
         <button
           key={group}

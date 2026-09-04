@@ -7,7 +7,7 @@ import ProfessionalTabs from "@/components/professional-tabs";
 import RateTable from "@/components/rate-table";
 import SearchFilters from "@/components/search-filters";
 import { getW16Data, previewMarkupFactors, previewRateRows, type W16Data } from "@/lib/w16-data";
-import { filterRateRows, groupRateRows } from "@/lib/w16-filter";
+import { groupRateRows, selectVisibleRows } from "@/lib/w16-filter";
 import type { W16Filters } from "@/lib/types";
 
 const initialFilters: W16Filters = { query: "", professionalGroup: "all", experience: "all", degree: "bachelor" };
@@ -15,7 +15,7 @@ const numberFormatter = new Intl.NumberFormat("th-TH");
 
 function getInitialGroup() {
   if (typeof window === "undefined") return "";
-  return new URLSearchParams(window.location.search).get("group") ?? "";
+  return new URLSearchParams(window.location.search).get("group") || "all";
 }
 
 export default function Home() {
@@ -54,9 +54,9 @@ export default function Home() {
     return Array.from(unique.entries()).sort(([a], [b]) => a - b).map(([value, label]) => ({ value: String(value), label }));
   }, [data.rates]);
 
-  const selectedGroup = groups.includes(activeGroup) ? activeGroup : (groups[0] ?? "");
+  const selectedGroup = activeGroup === "all" || groups.includes(activeGroup) ? activeGroup : (groups[0] ?? "");
   const hasSearchCriteria = Boolean(filters.query.trim() || filters.professionalGroup !== "all" || filters.experience !== "all");
-  const visibleRows = hasSearchCriteria ? filterRateRows(data.rates, filters) : (groupedRows.get(selectedGroup) ?? []);
+  const visibleRows = selectVisibleRows(data.rates, groupedRows, selectedGroup, filters);
   const updateUrl = (nextGroup: string) => {
     const params = new URLSearchParams(window.location.search);
     if (nextGroup) params.set("group", nextGroup); else params.delete("group");
@@ -64,13 +64,15 @@ export default function Home() {
   };
   const handleGroupChange = (nextGroup: string) => {
     setActiveGroup(nextGroup);
+    setFilters((currentFilters) => ({ ...currentFilters, professionalGroup: nextGroup }));
     updateUrl(nextGroup);
   };
   const handleFiltersChange = (nextFilters: W16Filters) => {
     setFilters(nextFilters);
-    if (nextFilters.professionalGroup !== "all") { setActiveGroup(nextFilters.professionalGroup); updateUrl(nextFilters.professionalGroup); }
+    setActiveGroup(nextFilters.professionalGroup);
+    updateUrl(nextFilters.professionalGroup);
   };
-  const resetFilters = () => setFilters(initialFilters);
+  const resetFilters = () => { setFilters(initialFilters); setActiveGroup("all"); updateUrl("all"); };
 
   return (
     <main className="site-shell">
