@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# คู่มือเทียบราคาค่าจ้างที่ปรึกษา ว16
 
-## Getting Started
+เว็บ Next.js แบบอ่านอย่างเดียวสำหรับค้นหาและเปิดดูตารางอัตราเงินเดือนพื้นฐานของ 10 กลุ่มวิชาชีพ พร้อม Markup Factor ที่เกี่ยวข้อง
 
-First, run the development server:
+## มุมมองการใช้งาน
 
-```bash
+- `ดูตามกลุ่มวิชาชีพ` แสดงแท็บของแต่ละกลุ่ม และเปิดตารางทั้งหมดของกลุ่มที่เลือก
+- `ค้นหาและเทียบ` กรองด้วยคำค้น กลุ่มวิชาชีพ ประสบการณ์ และวุฒิการศึกษา
+- ระดับปริญญาที่เลือกจะถูกเน้นในตาราง แต่ยังคงแสดงราคาอีกสองระดับเพื่อเปรียบเทียบ
+- แถวข้อมูลและ Markup Factor เก็บเลขหน้า/ชื่อตารางต้นทางเมื่อมีข้อมูลจริง
+
+## เริ่มต้นใช้งาน
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+เมื่อยังไม่ตั้งค่า Supabase เว็บจะแสดงข้อมูลตัวอย่างสำหรับ preview และติดป้าย `โหมดตัวอย่าง` ชัดเจน
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabase
 
-## Learn More
+1. สร้างโปรเจ็กต์ Supabase
+2. รันไฟล์ `supabase/migrations/001_w16_schema.sql` ใน SQL Editor
+3. คัดลอก `.env.example` เป็น `.env.local` แล้วใส่ค่า:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. รัน `node scripts/seed-w16.mjs` จากเครื่องที่ตั้งค่า service role key แล้ว
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+service role key ใช้เฉพาะ seed script และไม่ควรใส่ในโค้ดหน้าเว็บ
 
-## Deploy on Vercel
+## ตรวจสอบโปรเจ็กต์
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```powershell
+npm test
+npm run lint
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ข้อมูลใน `data/` เป็น fixture สำหรับ preview ของ UI และควรแทนที่ด้วยข้อมูลที่ตรวจเทียบกับ PDF ว16 ครบทุกแถวก่อนใช้งานจริง โดยคง `source_page` และ `source_table` ไว้ทุกระเบียน

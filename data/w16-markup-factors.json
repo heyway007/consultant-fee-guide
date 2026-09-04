@@ -1,0 +1,56 @@
+[
+  {
+    "id": "company-complete",
+    "factor_type": "company",
+    "factor_label": "บริษัท - มีหลักฐานครบ 3 กรณี",
+    "factor_value": 2.04,
+    "description": "บุคลากรหลัก: สวัสดิการสังคม 45% ค่าใช้จ่าย 55% และค่าภาษีวิชาชีพ 10% ตามเงื่อนไขในเอกสาร",
+    "source_page": 13,
+    "sort_order": 1
+  },
+  {
+    "id": "company-two-evidence",
+    "factor_type": "company",
+    "factor_label": "บริษัท - มีหลักฐาน 2 ข้อ",
+    "factor_value": 1.55,
+    "description": "ใช้เมื่อเอกสารหลักฐานประกอบบริษัทไม่ครบตามกรณีหลัก",
+    "source_page": 14,
+    "sort_order": 2
+  },
+  {
+    "id": "company-one-evidence",
+    "factor_type": "company",
+    "factor_label": "บริษัท - มีหลักฐาน 1 ข้อ",
+    "factor_value": 1.3,
+    "description": "ใช้เมื่อมีหลักฐานประกอบบริษัทเพียงบางส่วน",
+    "source_page": 14,
+    "sort_order": 3
+  },
+  {
+    "id": "company-no-evidence",
+    "factor_type": "company",
+    "factor_label": "บริษัท - ไม่มีหลักฐานประกอบ",
+    "factor_value": 1.25,
+    "description": "กรณีไม่มีหลักฐานประกอบตามเงื่อนไขบริษัท",
+    "source_page": 14,
+    "sort_order": 4
+  },
+  {
+    "id": "main-staff",
+    "factor_type": "staff",
+    "factor_label": "บุคลากรหลัก",
+    "factor_value": 1.7,
+    "description": "ตัวคูณอัตราค่าตอบแทนสำหรับบุคลากรหลัก",
+    "source_page": 15,
+    "sort_order": 5
+  },
+  {
+    "id": "assistant-staff",
+    "factor_type": "staff",
+    "factor_label": "บุคลากรผู้ช่วย",
+    "factor_value": 1.45,
+    "description": "ตัวคูณอัตราค่าตอบแทนสำหรับบุคลากรผู้ช่วย",
+    "source_page": 15,
+    "sort_order": 6
+  }
+]
