@@ -6,12 +6,12 @@ import MarkupPanel from "@/components/markup-panel";
 import ProfessionalTabs from "@/components/professional-tabs";
 import RateTable from "@/components/rate-table";
 import SearchFilters from "@/components/search-filters";
+import { defaultFilters } from "@/lib/default-filters";
 import { getInitialGroupFromSearch } from "@/lib/group-navigation";
 import { getW16Data, previewMarkupFactors, previewRateRows, type W16Data } from "@/lib/w16-data";
 import { groupRateRows, selectVisibleRows } from "@/lib/w16-filter";
 import type { W16Filters } from "@/lib/types";
 
-const initialFilters: W16Filters = { query: "", professionalGroup: "all", experience: "all", degree: "bachelor" };
 const numberFormatter = new Intl.NumberFormat("th-TH");
 
 function subscribeToLocation(onStoreChange: () => void) {
@@ -31,7 +31,7 @@ export default function Home() {
   const [data, setData] = useState<W16Data>({ rates: previewRateRows, markupFactors: previewMarkupFactors, source: "preview" });
   const locationGroup = useSyncExternalStore(subscribeToLocation, getClientLocationGroup, getServerLocationGroup);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
-  const [filters, setFilters] = useState<W16Filters>(initialFilters);
+  const [filters, setFilters] = useState<W16Filters>(defaultFilters);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -83,7 +83,7 @@ export default function Home() {
     setActiveGroup(nextFilters.professionalGroup);
     updateUrl(nextFilters.professionalGroup);
   };
-  const resetFilters = () => { setFilters(initialFilters); setActiveGroup("all"); updateUrl("all"); };
+  const resetFilters = () => { setFilters(defaultFilters); setActiveGroup("all"); updateUrl("all"); };
 
   return (
     <main className="site-shell">
