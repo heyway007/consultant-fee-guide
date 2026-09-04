@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 
 const stylesheet = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 const markupPanel = readFileSync(resolve(process.cwd(), "components/markup-panel.tsx"), "utf8");
+const markupCalculator = readFileSync(resolve(process.cwd(), "components/markup-calculator.tsx"), "utf8");
 
 describe("Markup Factor panel layout", () => {
   it("sticks beside long tables and returns to normal flow on smaller screens", () => {
@@ -24,5 +25,7 @@ describe("Markup Factor panel layout", () => {
     expect(markupPanel).toContain("factor.factor_label");
     expect(markupPanel).toContain("factor.factor_value");
     expect(stylesheet).toContain(".factor-rules-tooltip");
+    expect(markupCalculator).toContain("faCalculator");
+    expect(markupCalculator).toContain('className="calculator-title-icon"');
   });
 });

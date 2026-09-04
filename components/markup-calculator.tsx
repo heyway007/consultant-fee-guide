@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCopy, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCalculator, faCheck, faCopy, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { calculateConsultantFee, parseCalculatorNumber } from "@/lib/markup-calculator";
 
 type MarkupCalculatorProps = {
@@ -61,7 +61,7 @@ export default function MarkupCalculator({ baseRate, markupFactor }: MarkupCalcu
       <div className="calculator-heading">
         <div>
           <p className="eyebrow">คำนวณค่าจ้าง</p>
-          <h3>คำนวณอัตโนมัติ</h3>
+          <h3 className="calculator-title"><FontAwesomeIcon icon={faCalculator} className="calculator-title-icon" aria-hidden="true" />คำนวณอัตโนมัติ</h3>
         </div>
         <button type="button" className="calculator-reset" onClick={resetAutomaticValues}>
           <FontAwesomeIcon icon={faRotateLeft} aria-hidden="true" />

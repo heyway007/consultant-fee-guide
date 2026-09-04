@@ -149,6 +149,8 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .calculator-heading { display:flex; justify-content:space-between; align-items:start; gap:10px; }
 .calculator-heading .eyebrow { margin-bottom:5px; font-size:11px; }
 .calculator-heading h3 { margin:0; color:var(--teal); font-size:19px; font-weight:500; }
+.calculator-title { display:flex; align-items:center; gap:8px; }
+.calculator-title-icon { width:15px; color:var(--coral); font-size:15px; }
 .calculator-reset { display:inline-flex; align-items:center; gap:5px; border:0; background:transparent; color:var(--coral); padding:2px 0; font-size:11px; }
 .calculator-reset:hover { text-decoration:underline; }
 .calculator-description { margin:8px 0 13px; color:var(--muted); font-size:11px; line-height:1.5; }
