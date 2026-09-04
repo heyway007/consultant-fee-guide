@@ -12,7 +12,9 @@ describe("W16 preview rate data", () => {
     for (const rows of groupedRows.values()) {
       expect(rows).toHaveLength(31);
       expect(rows.map((row) => row.experience_years)).toEqual(Array.from({ length: 31 }, (_, index) => index + 1));
-      expect(rows.at(-1)?.experience_label).toBe("มากกว่า ๓๐ ปี");
+      expect(rows.at(-1)?.experience_label).toBe("มากกว่า 30 ปี");
     }
+
+    expect(previewRateRows.every((row) => !/[๐-๙]/u.test(`${row.experience_label} ${row.source_table ?? ""}`))).toBe(true);
   });
 });
