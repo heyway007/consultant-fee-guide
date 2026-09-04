@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import EmptyState from "@/components/empty-state";
 import MarkupPanel from "@/components/markup-panel";
 import ProfessionalTabs from "@/components/professional-tabs";
 import RateTable from "@/components/rate-table";
 import SearchFilters from "@/components/search-filters";
+import { getInitialGroupFromSearch } from "@/lib/group-navigation";
 import { getW16Data, previewMarkupFactors, previewRateRows, type W16Data } from "@/lib/w16-data";
 import { groupRateRows, selectVisibleRows } from "@/lib/w16-filter";
 import type { W16Filters } from "@/lib/types";
@@ -13,14 +14,23 @@ import type { W16Filters } from "@/lib/types";
 const initialFilters: W16Filters = { query: "", professionalGroup: "all", experience: "all", degree: "bachelor" };
 const numberFormatter = new Intl.NumberFormat("th-TH");
 
-function getInitialGroup() {
-  if (typeof window === "undefined") return "";
-  return new URLSearchParams(window.location.search).get("group") || "all";
+function subscribeToLocation(onStoreChange: () => void) {
+  window.addEventListener("popstate", onStoreChange);
+  return () => window.removeEventListener("popstate", onStoreChange);
+}
+
+function getClientLocationGroup() {
+  return getInitialGroupFromSearch(window.location.search);
+}
+
+function getServerLocationGroup() {
+  return "all";
 }
 
 export default function Home() {
   const [data, setData] = useState<W16Data>({ rates: previewRateRows, markupFactors: previewMarkupFactors, source: "preview" });
-  const [activeGroup, setActiveGroup] = useState(getInitialGroup);
+  const locationGroup = useSyncExternalStore(subscribeToLocation, getClientLocationGroup, getServerLocationGroup);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [filters, setFilters] = useState<W16Filters>(initialFilters);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +64,8 @@ export default function Home() {
     return Array.from(unique.entries()).sort(([a], [b]) => a - b).map(([value, label]) => ({ value: String(value), label }));
   }, [data.rates]);
 
-  const selectedGroup = activeGroup === "all" || groups.includes(activeGroup) ? activeGroup : (groups[0] ?? "");
+  const requestedGroup = activeGroup ?? locationGroup;
+  const selectedGroup = requestedGroup === "all" || groups.includes(requestedGroup) ? requestedGroup : (groups[0] ?? "");
   const hasSearchCriteria = Boolean(filters.query.trim() || filters.professionalGroup !== "all" || filters.experience !== "all");
   const visibleRows = selectVisibleRows(data.rates, groupedRows, selectedGroup, filters);
   const updateUrl = (nextGroup: string) => {
