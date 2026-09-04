@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { findMarkupFactor, getPersonnelRole } from "@/lib/markup-factors";
+import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole, type PersonnelRoleSelection } from "@/lib/markup-factors";
 import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType } from "@/lib/types";
 
 type MarkupPanelProps = {
@@ -27,15 +27,28 @@ const evidenceOptions: { value: W16EvidenceCount; label: string }[] = [
   { value: "0", label: "ไม่มีหลักฐาน" },
 ];
 
+const personnelRoleOptions: { value: PersonnelRoleSelection; label: string }[] = [
+  { value: "auto", label: "อัตโนมัติตามวุฒิ/ประสบการณ์" },
+  { value: "main", label: "บุคลากรหลัก" },
+  { value: "assistant", label: "บุคลากรผู้ช่วย" },
+];
+
 export default function MarkupPanel({ factors, degree, experience }: MarkupPanelProps) {
   const [organizationType, setOrganizationType] = useState<W16OrganizationType>("company-association");
   const [evidenceCount, setEvidenceCount] = useState<W16EvidenceCount>("3");
-  const personnelRole = getPersonnelRole(degree, experience);
+  const [personnelRoleSelection, setPersonnelRoleSelection] = useState<PersonnelRoleSelection>("auto");
+  const derivedPersonnelRole = getPersonnelRole(degree, experience);
   const isCompany = organizationType === "company-association";
-  const selectedRole = personnelRole ?? (organizationType === "independent" ? "any" : null);
+  const selectedRole = organizationType === "independent"
+    ? "any"
+    : resolvePersonnelRole(personnelRoleSelection, degree, experience);
   const selectedFactor = selectedRole ? findMarkupFactor(factors, { organizationType, personnelRole: selectedRole, evidenceCount }) : undefined;
-  const usesEvidence = isCompany && personnelRole === "main";
-  const personnelRoleLabel = organizationType === "independent" ? "ไม่แยกบุคลากรหลัก/ผู้ช่วย" : personnelRole === "main" ? "บุคลากรหลัก" : personnelRole === "assistant" ? "บุคลากรผู้ช่วย" : "เลือกวุฒิและประสบการณ์ด้านบน";
+  const usesEvidence = isCompany && selectedRole === "main";
+  const derivedRoleLabel = derivedPersonnelRole === "main"
+    ? "บุคลากรหลัก"
+    : derivedPersonnelRole === "assistant"
+      ? "บุคลากรผู้ช่วย"
+      : "เลือกวุฒิและประสบการณ์ด้านบน";
 
   return (
     <aside className="markup-panel" aria-label="Markup Factor">
@@ -47,29 +60,41 @@ export default function MarkupPanel({ factors, degree, experience }: MarkupPanel
         <span className="panel-icon" aria-hidden="true">×</span>
       </div>
       <p className="panel-description">เลือกเงื่อนไขให้ครบ ระบบจะแสดง Markup Factor ที่ตรงกับบุคลากร หน่วยงาน และหลักฐาน</p>
-      <div className="markup-filters" aria-label="เงื่อนไข Markup Factor">
-        <div className={`derived-role${personnelRole ? "" : " is-pending"}`}>
+      <div className="markup-condition-layout" aria-label="เงื่อนไข Markup Factor">
+        <div className={`derived-role${derivedPersonnelRole ? "" : " is-pending"}`}>
           <span>บุคลากรตามวุฒิ/ประสบการณ์</span>
-          <strong>{personnelRoleLabel}</strong>
+          <strong>{derivedRoleLabel}</strong>
+          <small>ค่าที่ระบบแนะนำจากเงื่อนไขด้านบน</small>
         </div>
-        <label>
-          <span>ประเภทหน่วยงาน</span>
-          <div className="select-control">
-            <select value={organizationType} onChange={(event) => setOrganizationType(event.target.value as W16OrganizationType)}>
-              {organizationOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-            </select>
-            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
-          </div>
-        </label>
-        <label>
-          <span>หลักฐานบริษัท{usesEvidence ? "" : " (ไม่ใช้กับเงื่อนไขนี้)"}</span>
-          <div className="select-control">
-            <select disabled={!usesEvidence} value={evidenceCount} onChange={(event) => setEvidenceCount(event.target.value as W16EvidenceCount)}>
-              {evidenceOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-            </select>
-            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
-          </div>
-        </label>
+        <div className="markup-edit-controls">
+          <label>
+            <span>บทบาทที่ใช้คำนวณ</span>
+            <div className="select-control">
+              <select value={personnelRoleSelection} onChange={(event) => setPersonnelRoleSelection(event.target.value as PersonnelRoleSelection)}>
+                {personnelRoleOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+              <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+            </div>
+          </label>
+          <label>
+            <span>ประเภทหน่วยงาน</span>
+            <div className="select-control">
+              <select value={organizationType} onChange={(event) => setOrganizationType(event.target.value as W16OrganizationType)}>
+                {organizationOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+              <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+            </div>
+          </label>
+          <label>
+            <span>หลักฐานบริษัท{usesEvidence ? "" : " (ไม่ใช้กับเงื่อนไขนี้)"}</span>
+            <div className="select-control">
+              <select disabled={!usesEvidence} value={evidenceCount} onChange={(event) => setEvidenceCount(event.target.value as W16EvidenceCount)}>
+                {evidenceOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+              <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+            </div>
+          </label>
+        </div>
       </div>
       {selectedFactor ? (
         <div className="factor-result">

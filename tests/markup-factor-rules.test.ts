@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { markupFactors } from "@/lib/w16-data";
-import { findMarkupFactor, getPersonnelRole } from "@/lib/markup-factors";
+import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole } from "@/lib/markup-factors";
 import type { MarkupFactorSelection } from "@/lib/markup-factors";
 
 const rules = markupFactors as unknown as Array<Record<string, unknown>>;
@@ -64,5 +64,12 @@ describe("Markup Factor rules", () => {
     expect(getPersonnelRole("doctorate", "3")).toBe("main");
     expect(getPersonnelRole("all", "11")).toBeNull();
     expect(getPersonnelRole("bachelor", "all")).toBeNull();
+  });
+
+  it("keeps auto role selection connected to W16 while allowing a manual override", () => {
+    expect(resolvePersonnelRole("auto", "bachelor", "11")).toBe("main");
+    expect(resolvePersonnelRole("auto", "bachelor", "1")).toBe("assistant");
+    expect(resolvePersonnelRole("main", "bachelor", "1")).toBe("main");
+    expect(resolvePersonnelRole("assistant", "master", "6")).toBe("assistant");
   });
 });

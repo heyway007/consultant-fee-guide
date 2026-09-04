@@ -6,6 +6,8 @@ export type MarkupFactorSelection = {
   evidenceCount: W16EvidenceCount;
 };
 
+export type PersonnelRoleSelection = "auto" | Exclude<W16PersonnelRole, "any">;
+
 const mainStaffThresholds: Record<Exclude<W16Degree, never>, number> = {
   bachelor: 10,
   master: 5,
@@ -19,6 +21,14 @@ export function getPersonnelRole(degree: W16Degree | "all", experience: string) 
   if (!Number.isFinite(experienceYears)) return null;
 
   return experienceYears > mainStaffThresholds[degree] ? "main" : "assistant";
+}
+
+export function resolvePersonnelRole(
+  selection: PersonnelRoleSelection,
+  degree: W16Degree | "all",
+  experience: string,
+) {
+  return selection === "auto" ? getPersonnelRole(degree, experience) : selection;
 }
 
 export function findMarkupFactor(factors: W16MarkupFactor[], selection: MarkupFactorSelection) {
