@@ -24,7 +24,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
             <tr>
               <th scope="col" rowSpan={2}>ประสบการณ์</th>
               <th scope="col" colSpan={3} className="degree-group">ปริญญา</th>
-              <th scope="col" rowSpan={2}>แหล่งอ้างอิง</th>
+              <th scope="col" rowSpan={2} className="professional-heading">วิชาชีพ</th>
             </tr>
             <tr>
               <th scope="col" aria-selected={selectedDegree === "bachelor"} className={degreeClass(selectedDegree, "bachelor")}>ปริญญาตรี</th>
@@ -42,10 +42,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
                 <td className={degreeClass(selectedDegree, "bachelor")}>{formatRate(row.bachelor_rate)}</td>
                 <td className={degreeClass(selectedDegree, "master")}>{formatRate(row.master_rate)}</td>
                 <td className={degreeClass(selectedDegree, "doctorate")}>{formatRate(row.doctorate_rate)}</td>
-                <td className="source-cell">
-                  <span>หน้า {row.source_page ?? "-"}</span>
-                  <small>{row.source_table ?? "ไม่ระบุ"}</small>
-                </td>
+                <td className="professional-cell">{row.professional_group}</td>
               </tr>
             ))}
           </tbody>
@@ -56,7 +53,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
           <article className="rate-card" key={row.id}>
             <div className="rate-card-heading">
               <div><span className="experience-number">{row.experience_label}</span><span className="experience-caption">ประสบการณ์</span></div>
-              <span className="source-chip">หน้า {row.source_page ?? "-"}</span>
+              <span className="professional-chip">{row.professional_group}</span>
             </div>
             <div className="rate-card-grid">
               <div className={degreeClass(selectedDegree, "bachelor")}><span>ตรี</span><strong>{formatRate(row.bachelor_rate)}</strong></div>

@@ -22,6 +22,8 @@ describe("RateTable", () => {
 
     expect(screen.getByRole("columnheader", { name: "ปริญญาตรี" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "ปริญญาโท" })).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("cell", { name: /หน้า 11/ })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "วิชาชีพ" })).toBeInTheDocument();
+    expect(screen.getByRole("cell", { name: "วิศวกรรม" })).toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: "แหล่งอ้างอิง" })).not.toBeInTheDocument();
   });
 });
