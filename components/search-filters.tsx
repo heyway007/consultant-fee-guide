@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faMagnifyingGlass, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase, faChevronDown, faClock, faGraduationCap, faMagnifyingGlass, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import type { W16Degree, W16Filters } from "@/lib/types";
 
 type SearchFiltersProps = {
@@ -52,7 +52,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
       </div>
       <div className="filter-grid">
         <label>
-          <span>วุฒิการศึกษา</span>
+          <span className="filter-label-title"><FontAwesomeIcon icon={faGraduationCap} className="filter-label-icon" aria-hidden="true" />วุฒิการศึกษา</span>
           <div className="select-control">
             <select value={filters.degree} onChange={(event) => update("degree", event.target.value)}>
               {degreeOptions.map((degree) => <option key={degree.value} value={degree.value}>{degree.label}</option>)}
@@ -61,7 +61,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
           </div>
         </label>
         <label>
-          <span>กลุ่มวิชาชีพ</span>
+          <span className="filter-label-title"><FontAwesomeIcon icon={faBriefcase} className="filter-label-icon" aria-hidden="true" />กลุ่มวิชาชีพ</span>
           <div className="select-control">
             <select value={filters.professionalGroup} onChange={(event) => update("professionalGroup", event.target.value)}>
               <option value="all">ทุกกลุ่มวิชาชีพ</option>
@@ -71,7 +71,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
           </div>
         </label>
         <label>
-          <span>ประสบการณ์</span>
+          <span className="filter-label-title"><FontAwesomeIcon icon={faClock} className="filter-label-icon" aria-hidden="true" />ประสบการณ์</span>
           <div className="select-control">
             <select value={filters.experience} onChange={(event) => update("experience", event.target.value)}>
               <option value="all">ทุกช่วงประสบการณ์</option>

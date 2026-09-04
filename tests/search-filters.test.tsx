@@ -30,9 +30,10 @@ describe("SearchFilters layout", () => {
     expect(container.querySelectorAll(".clear-button")).toHaveLength(1);
     expect(container.querySelector(".clear-icon")).toBeInTheDocument();
     expect(container.querySelector(".search-icon")).toBeInTheDocument();
-    expect(container.querySelector(".filter-label-title")).not.toBeInTheDocument();
+    expect(container.querySelector(".filter-search-field .filter-label-title")).not.toBeInTheDocument();
     expect(container.querySelector(".input-with-icon input")?.getAttribute("aria-label")).toBe("ค้นหากลุ่มวิชาชีพหรือหมายเหตุ");
     expect(container.querySelector(".input-with-icon input")?.getAttribute("placeholder")).toBe("เช่น วิศวกรรม, สิ่งแวดล้อม");
+    expect(container.querySelectorAll(".filter-grid .filter-label-icon")).toHaveLength(3);
     expect(container.querySelectorAll(".select-control")).toHaveLength(3);
     expect(container.querySelectorAll(".select-icon")).toHaveLength(3);
     expect(stylesheet).toContain(".input-with-icon input:focus { border-color:transparent; box-shadow:none; }");
