@@ -21,6 +21,18 @@ npm run dev
 
 เว็บใช้ข้อมูลจากไฟล์ JSON ในโฟลเดอร์ `data/` โดยตรง ไม่ต้องตั้งค่าฐานข้อมูลหรือ environment variable เพิ่มเติม
 
+## Build บน Cloudflare Workers
+
+โปรเจกต์เตรียม OpenNext และ Wrangler สำหรับ Cloudflare Workers ไว้แล้ว โดยใช้คำสั่ง:
+
+```powershell
+npm run build:cloudflare
+npm run preview:cloudflare
+npm run deploy:cloudflare
+```
+
+สำหรับ Cloudflare Workers Builds ให้ใช้ Build command เป็น `npm run build:cloudflare` ระบบจะอ่านการตั้งค่าจาก `wrangler.jsonc` และใช้ output ใน `.open-next/` สำหรับ Worker
+
 ## ตรวจสอบโปรเจ็กต์
 
 ```powershell
