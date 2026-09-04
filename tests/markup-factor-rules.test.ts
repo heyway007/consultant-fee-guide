@@ -56,11 +56,11 @@ describe("Markup Factor rules", () => {
   });
 
   it("derives the personnel role from degree and experience thresholds in the guidance", () => {
-    expect(getPersonnelRole("bachelor", "10")).toBe("assistant");
+    expect(getPersonnelRole("bachelor", "10")).toBe("main");
     expect(getPersonnelRole("bachelor", "11")).toBe("main");
-    expect(getPersonnelRole("master", "5")).toBe("assistant");
+    expect(getPersonnelRole("master", "5")).toBe("main");
     expect(getPersonnelRole("master", "6")).toBe("main");
-    expect(getPersonnelRole("doctorate", "2")).toBe("assistant");
+    expect(getPersonnelRole("doctorate", "2")).toBe("main");
     expect(getPersonnelRole("doctorate", "3")).toBe("main");
     expect(getPersonnelRole("all", "11")).toBeNull();
     expect(getPersonnelRole("bachelor", "all")).toBeNull();

@@ -20,7 +20,7 @@ export function getPersonnelRole(degree: W16Degree | "all", experience: string) 
   const experienceYears = Number(experience);
   if (!Number.isFinite(experienceYears)) return null;
 
-  return experienceYears > mainStaffThresholds[degree] ? "main" : "assistant";
+  return experienceYears >= mainStaffThresholds[degree] ? "main" : "assistant";
 }
 
 export function resolvePersonnelRole(

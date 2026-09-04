@@ -31,7 +31,7 @@ describe("RateTable", () => {
     expect(document.querySelector(".professional-column")).toBeInTheDocument();
     expect(screen.queryByRole("columnheader", { name: "แหล่งอ้างอิง" })).not.toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "บุคลากรตามวุฒิ/ประสบการณ์" })).toBeInTheDocument();
-    expect(document.querySelector(".personnel-role-cell")).toHaveTextContent("บุคลากรผู้ช่วย");
+    expect(document.querySelector(".personnel-role-cell")).toHaveTextContent("บุคลากรหลัก");
   });
 
   it("uses one table header row with an icon for each column", () => {
@@ -41,6 +41,7 @@ describe("RateTable", () => {
     expect(container.querySelectorAll(".table-heading-icon")).toHaveLength(6);
     expect(container.querySelector("thead th")?.textContent).toContain("ประสบการณ์");
     expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("ตรี: ผู้ช่วย");
+    expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("โท: หลัก");
     expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("เอก: หลัก");
   });
 });
