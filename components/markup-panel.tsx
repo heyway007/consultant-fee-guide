@@ -4,14 +4,16 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCircleInfo, faPercent } from "@fortawesome/free-solid-svg-icons";
 import MarkupCalculator from "@/components/markup-calculator";
+import SupportStaffPanel from "@/components/support-staff-panel";
 import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole, type PersonnelRoleSelection } from "@/lib/markup-factors";
-import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType } from "@/lib/types";
+import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType, W16SupportStaff } from "@/lib/types";
 
 type MarkupPanelProps = {
   factors: W16MarkupFactor[];
   degree: W16Degree | "all";
   experience: string;
   baseRate: number | null;
+  supportStaff: W16SupportStaff[];
 };
 
 const factorFormatter = new Intl.NumberFormat("th-TH", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
@@ -35,7 +37,7 @@ const personnelRoleOptions: { value: PersonnelRoleSelection; label: string }[] =
   { value: "assistant", label: "บุคลากรผู้ช่วย" },
 ];
 
-export default function MarkupPanel({ factors, degree, experience, baseRate }: MarkupPanelProps) {
+export default function MarkupPanel({ factors, degree, experience, baseRate, supportStaff }: MarkupPanelProps) {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [organizationType, setOrganizationType] = useState<W16OrganizationType>("company-association");
   const [evidenceCount, setEvidenceCount] = useState<W16EvidenceCount>("3");
@@ -138,6 +140,7 @@ export default function MarkupPanel({ factors, degree, experience, baseRate }: M
       ) : (
         <div className="factor-empty">ไม่พบ Markup Factor สำหรับเงื่อนไขนี้</div>
       )}
+      <SupportStaffPanel staff={supportStaff} />
       <MarkupCalculator baseRate={baseRate} markupFactor={selectedFactor?.factor_value ?? null} />
       <p className="panel-footnote">* บุคลากรสนับสนุนไม่มี Markup Factor ให้ใช้อัตรา Billing Rate ตามเอกสาร</p>
     </aside>

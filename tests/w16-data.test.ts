@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getW16Data, markupFactors, rateRows } from "@/lib/w16-data";
+import { getW16Data, markupFactors, rateRows, supportStaff } from "@/lib/w16-data";
 import { groupRateRows } from "@/lib/w16-filter";
 
 describe("W16 JSON data", () => {
@@ -19,6 +19,6 @@ describe("W16 JSON data", () => {
   });
 
   it("loads rates and markup factors from the project JSON", async () => {
-    await expect(getW16Data()).resolves.toEqual({ rates: rateRows, markupFactors });
+    await expect(getW16Data()).resolves.toEqual({ rates: rateRows, markupFactors, supportStaff });
   });
 });

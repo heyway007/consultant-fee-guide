@@ -1,0 +1,30 @@
+[
+  {
+    "id": "technical-staff",
+    "position": "ช่างเทคนิค",
+    "monthly_rate": 31120,
+    "source_page": null,
+    "source_table": "ตารางอัตราค่าตอบแทนบุคลากรสนับสนุน"
+  },
+  {
+    "id": "secretary",
+    "position": "เลขานุการ",
+    "monthly_rate": 20000,
+    "source_page": null,
+    "source_table": "ตารางอัตราค่าตอบแทนบุคลากรสนับสนุน"
+  },
+  {
+    "id": "typist",
+    "position": "พนักงานพิมพ์ดีด",
+    "monthly_rate": 18180,
+    "source_page": null,
+    "source_table": "ตารางอัตราค่าตอบแทนบุคลากรสนับสนุน"
+  },
+  {
+    "id": "administrative-staff",
+    "position": "พนักงานธุรการ",
+    "monthly_rate": 15460,
+    "source_page": null,
+    "source_table": "ตารางอัตราค่าตอบแทนบุคลากรสนับสนุน"
+  }
+]

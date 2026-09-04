@@ -38,3 +38,11 @@ export type W16MarkupFactor = {
   source_page: number | null;
   sort_order: number;
 };
+
+export type W16SupportStaff = {
+  id: string;
+  position: string;
+  monthly_rate: number;
+  source_page: number | null;
+  source_table: string | null;
+};
