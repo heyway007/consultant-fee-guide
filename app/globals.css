@@ -68,10 +68,11 @@ select { appearance:none; padding-right:42px; }
 input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--coral); box-shadow:0 0 0 3px rgba(229,107,79,.14); }
 .rate-table-shell { min-width:0; }
 .rate-table-scroll { overflow-x:auto; }
-.rate-table { width:100%; min-width:660px; border-collapse:collapse; table-layout:fixed; font-size:13px; }
-.experience-column { width:16%; }
-.degree-column { width:21%; }
-.professional-column { width:21%; }
+.rate-table { width:100%; min-width:860px; border-collapse:collapse; table-layout:fixed; font-size:13px; }
+.experience-column { width:12%; }
+.degree-column { width:15.5%; }
+.professional-column { width:19%; }
+.personnel-role-column { width:22.5%; }
 .rate-table th,.rate-table td { border-bottom:1px solid var(--line); padding:12px 10px; text-align:right; vertical-align:middle; }
 .rate-table thead th { background:var(--surface-soft); color:var(--teal); font-size:12px; font-weight:500; white-space:nowrap; }
 .rate-table thead tr:first-child th:first-child { border-radius:12px 0 0 0; text-align:left; }
@@ -89,6 +90,8 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .experience-caption { display:block; color:var(--muted); font-size:10px; font-weight:500; }
 .professional-heading,.professional-cell { text-align:right !important; }
 .professional-cell { color:var(--teal); font-size:12px; font-weight:400; line-height:1.45; white-space:normal; overflow-wrap:anywhere; }
+.personnel-role-heading { text-align:right !important; white-space:normal !important; }
+.personnel-role-cell { color:var(--teal); font-size:11px; line-height:1.45; text-align:right; white-space:normal; overflow-wrap:anywhere; }
 .rate-cards { display:none; }
 .markup-panel { align-self:start; position:sticky; top:16px; padding:24px; }
 .panel-heading { align-items:start; }

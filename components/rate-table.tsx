@@ -1,6 +1,7 @@
 import type { W16Degree, W16RateRow } from "@/lib/types";
+import { getPersonnelRole as derivePersonnelRole } from "@/lib/markup-factors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faClock, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase, faClock, faGraduationCap, faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 type RateTableProps = {
   rows: W16RateRow[];
@@ -9,12 +10,30 @@ type RateTableProps = {
 
 const numberFormatter = new Intl.NumberFormat("th-TH");
 
+const degreeOptions: { value: W16Degree; label: string }[] = [
+  { value: "bachelor", label: "ตรี" },
+  { value: "master", label: "โท" },
+  { value: "doctorate", label: "เอก" },
+];
+
 function formatRate(value: number | null) {
   return value === null ? "-" : numberFormatter.format(value);
 }
 
 function degreeClass(selectedDegree: W16Degree | "all", degree: W16Degree) {
   return selectedDegree === degree ? "degree-selected" : "";
+}
+
+function getPersonnelRoleLabel(degree: W16Degree, experienceYears: number) {
+  return derivePersonnelRole(degree, String(experienceYears)) === "main" ? "หลัก" : "ผู้ช่วย";
+}
+
+function formatPersonnelRoles(row: W16RateRow, selectedDegree: W16Degree | "all") {
+  if (selectedDegree !== "all") return `บุคลากร${getPersonnelRoleLabel(selectedDegree, row.experience_years)}`;
+
+  return degreeOptions
+    .map((degree) => `${degree.label}: ${getPersonnelRoleLabel(degree.value, row.experience_years)}`)
+    .join(" · ");
 }
 
 export default function RateTable({ rows, selectedDegree }: RateTableProps) {
@@ -26,6 +45,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
             <col className="experience-column" />
             <col span={3} className="degree-column" />
             <col className="professional-column" />
+            <col className="personnel-role-column" />
           </colgroup>
           <thead>
             <tr>
@@ -34,6 +54,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
               <th scope="col" aria-selected={selectedDegree === "master"} className={degreeClass(selectedDegree, "master")}><span className="table-heading-label"><FontAwesomeIcon icon={faGraduationCap} className="table-heading-icon" aria-hidden="true" />ปริญญาโท</span></th>
               <th scope="col" aria-selected={selectedDegree === "doctorate"} className={degreeClass(selectedDegree, "doctorate")}><span className="table-heading-label"><FontAwesomeIcon icon={faGraduationCap} className="table-heading-icon" aria-hidden="true" />ปริญญาเอก</span></th>
               <th scope="col" className="professional-heading"><span className="table-heading-label"><FontAwesomeIcon icon={faBriefcase} className="table-heading-icon" aria-hidden="true" />วิชาชีพ</span></th>
+              <th scope="col" className="personnel-role-heading"><span className="table-heading-label"><FontAwesomeIcon icon={faUserTie} className="table-heading-icon" aria-hidden="true" />บุคลากรตามวุฒิ/ประสบการณ์</span></th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +68,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
                 <td className={`${degreeClass(selectedDegree, "master")} rate-value rate-highlight`}>{formatRate(row.master_rate)}</td>
                 <td className={`${degreeClass(selectedDegree, "doctorate")} rate-value rate-highlight`}>{formatRate(row.doctorate_rate)}</td>
                 <td className="professional-cell">{row.professional_group}</td>
+                <td className="personnel-role-cell">{formatPersonnelRoles(row, selectedDegree)}</td>
               </tr>
             ))}
           </tbody>
