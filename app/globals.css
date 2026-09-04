@@ -104,6 +104,8 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .rate-cards { display:none; }
 .markup-panel { align-self:start; position:sticky; top:16px; padding:24px; }
 .panel-heading { align-items:start; }
+.panel-title { display:flex; align-items:center; gap:9px; }
+.panel-title-icon { width:16px; color:var(--coral); font-size:16px; }
 .panel-description { margin:17px 0 22px; color:var(--muted); font-size:13px; line-height:1.7; }
 .markup-condition-layout { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:12px; align-items:stretch; margin-bottom:18px; }
 .markup-edit-controls { display:grid; gap:11px; }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faPercent } from "@fortawesome/free-solid-svg-icons";
 import MarkupCalculator from "@/components/markup-calculator";
 import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole, type PersonnelRoleSelection } from "@/lib/markup-factors";
 import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType } from "@/lib/types";
@@ -57,7 +57,7 @@ export default function MarkupPanel({ factors, degree, experience, baseRate }: M
       <div className="panel-heading">
         <div>
           <p className="eyebrow">ส่วนประกอบราคา</p>
-          <h2>Markup Factor</h2>
+          <h2 className="panel-title"><FontAwesomeIcon icon={faPercent} className="panel-title-icon" aria-hidden="true" />Markup Factor</h2>
         </div>
       </div>
       <p className="panel-description">เลือกเงื่อนไขให้ครบ ระบบจะแสดง Markup Factor ที่ตรงกับบุคลากร หน่วยงาน และหลักฐาน</p>
