@@ -25,14 +25,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
           <p className="eyebrow">ค้นหาในเอกสาร ว16</p>
           <h2>ค้นหาอัตราที่ต้องการ</h2>
         </div>
-        {hasFilters ? (
-          <button className="clear-button" type="button" onClick={() => onChange({ query: "", professionalGroup: "all", experience: "all", degree: "all" })}>
-            ล้างตัวกรอง
-          </button>
-        ) : null}
-      </div>
-      <div className="filter-grid">
-        <label className="search-field filter-span-2">
+        <label className="search-field filter-search-field">
           <span>คำค้น</span>
           <div className="input-with-icon">
             <span aria-hidden="true">⌕</span>
@@ -45,6 +38,19 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
             />
           </div>
         </label>
+        {hasFilters ? (
+          <button className="clear-button" type="button" onClick={() => onChange({ query: "", professionalGroup: "all", experience: "all", degree: "all" })}>
+            ล้างตัวกรอง
+          </button>
+        ) : null}
+      </div>
+      <div className="filter-grid">
+        <label>
+          <span>วุฒิการศึกษา</span>
+          <select value={filters.degree} onChange={(event) => update("degree", event.target.value)}>
+            {degreeOptions.map((degree) => <option key={degree.value} value={degree.value}>{degree.label}</option>)}
+          </select>
+        </label>
         <label>
           <span>กลุ่มวิชาชีพ</span>
           <select value={filters.professionalGroup} onChange={(event) => update("professionalGroup", event.target.value)}>
@@ -56,13 +62,7 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
           <span>ประสบการณ์</span>
           <select value={filters.experience} onChange={(event) => update("experience", event.target.value)}>
             <option value="all">ทุกช่วงประสบการณ์</option>
-            {experiences.map((experience) => <option key={experience.value} value={experience.value}>{experience.label}</option>)}
-          </select>
-        </label>
-        <label>
-          <span>วุฒิการศึกษา</span>
-          <select value={filters.degree} onChange={(event) => update("degree", event.target.value)}>
-            {degreeOptions.map((degree) => <option key={degree.value} value={degree.value}>{degree.label}</option>)}
+          {experiences.map((experience) => <option key={experience.value} value={experience.value}>{experience.label}</option>)}
           </select>
         </label>
       </div>
