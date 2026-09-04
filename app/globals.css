@@ -46,7 +46,7 @@ h1 { margin-bottom:12px; font-size:clamp(30px,4vw,50px); line-height:1.08; lette
 .results-section { min-width:0; padding:24px; }
 .results-heading { margin-bottom:22px; }
 .result-count { border-radius:99px; background:var(--surface-soft); padding:7px 10px; color:var(--muted); font-size:12px; white-space:nowrap; }
-.filter-card { position:sticky; top:12px; z-index:2; margin-bottom:26px; padding:22px; }
+.filter-card { margin-bottom:26px; padding:22px; }
 .filter-heading { align-items:center; margin-bottom:19px; }
 .clear-button { border:0; background:transparent; color:var(--coral); font-size:12px; font-weight:800; }
 .clear-button:hover { text-decoration:underline; }
