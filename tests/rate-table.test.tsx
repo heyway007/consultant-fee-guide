@@ -23,7 +23,9 @@ describe("RateTable", () => {
     expect(screen.getByRole("columnheader", { name: "ปริญญาตรี" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "ปริญญาโท" })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("columnheader", { name: "วิชาชีพ" })).toBeInTheDocument();
-    expect(screen.getByRole("cell", { name: "วิศวกรรม" })).toBeInTheDocument();
+    expect(screen.getByRole("cell", { name: "วิศวกรรม" })).toHaveClass("professional-cell");
+    expect(screen.getAllByRole("cell")).toHaveLength(4);
+    expect(document.querySelectorAll(".rate-value")).toHaveLength(3);
     expect(screen.queryByRole("columnheader", { name: "แหล่งอ้างอิง" })).not.toBeInTheDocument();
   });
 });

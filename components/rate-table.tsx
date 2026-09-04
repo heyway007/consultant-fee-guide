@@ -39,9 +39,9 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
                   <span className="experience-number">{row.experience_label}</span>
                   <span className="experience-caption">ประสบการณ์</span>
                 </th>
-                <td className={degreeClass(selectedDegree, "bachelor")}>{formatRate(row.bachelor_rate)}</td>
-                <td className={degreeClass(selectedDegree, "master")}>{formatRate(row.master_rate)}</td>
-                <td className={degreeClass(selectedDegree, "doctorate")}>{formatRate(row.doctorate_rate)}</td>
+                <td className={`${degreeClass(selectedDegree, "bachelor")} rate-value`}>{formatRate(row.bachelor_rate)}</td>
+                <td className={`${degreeClass(selectedDegree, "master")} rate-value`}>{formatRate(row.master_rate)}</td>
+                <td className={`${degreeClass(selectedDegree, "doctorate")} rate-value`}>{formatRate(row.doctorate_rate)}</td>
                 <td className="professional-cell">{row.professional_group}</td>
               </tr>
             ))}
