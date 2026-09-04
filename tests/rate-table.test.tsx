@@ -26,6 +26,9 @@ describe("RateTable", () => {
     expect(screen.getByRole("cell", { name: "วิศวกรรม" })).toHaveClass("professional-cell");
     expect(screen.getAllByRole("cell")).toHaveLength(4);
     expect(document.querySelectorAll(".rate-value")).toHaveLength(3);
+    expect(document.querySelectorAll(".rate-table col")).toHaveLength(3);
+    expect(document.querySelector(".degree-column")).toHaveAttribute("span", "3");
+    expect(document.querySelector(".professional-column")).toBeInTheDocument();
     expect(screen.queryByRole("columnheader", { name: "แหล่งอ้างอิง" })).not.toBeInTheDocument();
   });
 });

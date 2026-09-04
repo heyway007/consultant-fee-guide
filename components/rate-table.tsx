@@ -20,6 +20,11 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
     <div className="rate-table-shell">
       <div className="rate-table-scroll">
         <table className="rate-table">
+          <colgroup>
+            <col className="experience-column" />
+            <col span={3} className="degree-column" />
+            <col className="professional-column" />
+          </colgroup>
           <thead>
             <tr>
               <th scope="col" rowSpan={2}>ประสบการณ์</th>
