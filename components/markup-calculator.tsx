@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCopy, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { calculateConsultantFee, parseCalculatorNumber } from "@/lib/markup-calculator";
 
 type MarkupCalculatorProps = {
@@ -26,6 +26,7 @@ export default function MarkupCalculator({ baseRate, markupFactor }: MarkupCalcu
   const [factorOverride, setFactorOverride] = useState<string | null>(null);
   const [months, setMonths] = useState("1");
   const [workPercentage, setWorkPercentage] = useState("100");
+  const [copiedResult, setCopiedResult] = useState<string | null>(null);
   const baseSalary = baseSalaryOverride ?? formatBaseRate(baseRate);
   const factor = factorOverride ?? formatMarkupFactor(markupFactor);
 
@@ -35,12 +36,24 @@ export default function MarkupCalculator({ baseRate, markupFactor }: MarkupCalcu
     months: parseCalculatorNumber(months),
     workPercentage: parseCalculatorNumber(workPercentage),
   }), [baseSalary, factor, months, workPercentage]);
+  const formattedResult = result === null ? null : resultFormatter.format(result);
+  const isCopied = formattedResult !== null && copiedResult === formattedResult;
 
   const resetAutomaticValues = () => {
     setBaseSalaryOverride(null);
     setFactorOverride(null);
     setMonths("1");
     setWorkPercentage("100");
+  };
+
+  const copyResult = async () => {
+    if (formattedResult === null || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(formattedResult);
+      setCopiedResult(formattedResult);
+    } catch {
+      setCopiedResult(null);
+    }
   };
 
   return (
@@ -88,7 +101,12 @@ export default function MarkupCalculator({ baseRate, markupFactor }: MarkupCalcu
       </div>
       <div className="calculator-result" aria-live="polite">
         <span>รวมค่าจ้างโดยประมาณ</span>
-        <strong>{result === null ? "กรอกข้อมูลให้ครบ" : `${resultFormatter.format(result)} บาท`}</strong>
+        <div className="calculator-result-value">
+          <strong>{formattedResult === null ? "กรอกข้อมูลให้ครบ" : `${formattedResult} บาท`}</strong>
+          <button type="button" className="calculator-copy" onClick={() => void copyResult()} disabled={formattedResult === null} aria-label={isCopied ? "คัดลอกแล้ว" : "คัดลอกผลลัพธ์"} title={isCopied ? "คัดลอกแล้ว" : "คัดลอกตัวเลขผลลัพธ์"}>
+            <FontAwesomeIcon icon={isCopied ? faCheck : faCopy} aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </section>
   );
