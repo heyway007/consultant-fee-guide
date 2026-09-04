@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faPercent } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faCircleInfo, faPercent } from "@fortawesome/free-solid-svg-icons";
 import MarkupCalculator from "@/components/markup-calculator";
 import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole, type PersonnelRoleSelection } from "@/lib/markup-factors";
 import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType } from "@/lib/types";
@@ -36,6 +36,7 @@ const personnelRoleOptions: { value: PersonnelRoleSelection; label: string }[] =
 ];
 
 export default function MarkupPanel({ factors, degree, experience, baseRate }: MarkupPanelProps) {
+  const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [organizationType, setOrganizationType] = useState<W16OrganizationType>("company-association");
   const [evidenceCount, setEvidenceCount] = useState<W16EvidenceCount>("3");
   const [personnelRoleSelection, setPersonnelRoleSelection] = useState<PersonnelRoleSelection>("auto");
@@ -57,7 +58,32 @@ export default function MarkupPanel({ factors, degree, experience, baseRate }: M
       <div className="panel-heading">
         <div>
           <p className="eyebrow">ส่วนประกอบราคา</p>
-          <h2 className="panel-title"><FontAwesomeIcon icon={faPercent} className="panel-title-icon" aria-hidden="true" />Markup Factor</h2>
+          <h2 className="panel-title">
+            <FontAwesomeIcon icon={faPercent} className="panel-title-icon" aria-hidden="true" />
+            Markup Factor
+            <span className={`factor-rules-help${isRulesOpen ? " is-open" : ""}`}>
+              <button type="button" className="factor-rules-button" aria-label="ดูกฎ Markup Factor ทั้งหมด" aria-expanded={isRulesOpen} aria-controls="markup-factor-rules" onClick={() => setIsRulesOpen((open) => !open)}>
+                <FontAwesomeIcon icon={faCircleInfo} aria-hidden="true" />
+              </button>
+              <span id="markup-factor-rules" className="factor-rules-tooltip" role="tooltip">
+                <span className="factor-rules-tooltip-heading">
+                  <strong>กฎ Markup Factor ทั้งหมด</strong>
+                  <small>{factors.length} รายการ</small>
+                </span>
+                <span className="factor-rules-list">
+                  {factors.map((factor) => (
+                    <span className="factor-rule" key={factor.id}>
+                      <span className="factor-rule-copy">
+                        <strong>{factor.factor_label}</strong>
+                        {factor.description ? <small>{factor.description}</small> : null}
+                      </span>
+                      <b>×{factorFormatter.format(factor.factor_value)}</b>
+                    </span>
+                  ))}
+                </span>
+              </span>
+            </span>
+          </h2>
         </div>
       </div>
       <p className="panel-description">เลือกเงื่อนไขให้ครบ ระบบจะแสดง Markup Factor ที่ตรงกับบุคลากร หน่วยงาน และหลักฐาน</p>

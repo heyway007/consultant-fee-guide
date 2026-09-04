@@ -20,5 +20,9 @@ describe("Markup Factor panel layout", () => {
     expect(stylesheet).toContain(".personnel-role-cell { color:var(--teal); font-size:12px;");
     expect(markupPanel).toContain("faPercent");
     expect(markupPanel).toContain('className="panel-title-icon"');
+    expect(markupPanel).toContain("factor-rules-tooltip");
+    expect(markupPanel).toContain("factor.factor_label");
+    expect(markupPanel).toContain("factor.factor_value");
+    expect(stylesheet).toContain(".factor-rules-tooltip");
   });
 });

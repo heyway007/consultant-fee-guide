@@ -106,6 +106,20 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .panel-heading { align-items:start; }
 .panel-title { display:flex; align-items:center; gap:9px; }
 .panel-title-icon { width:16px; color:var(--coral); font-size:16px; }
+.factor-rules-help { position:relative; display:inline-flex; align-items:center; }
+.factor-rules-button { display:grid; place-items:center; width:22px; height:22px; border:0; border-radius:50%; background:var(--surface-soft); color:var(--muted); font-size:12px; }
+.factor-rules-button:hover,.factor-rules-button:focus-visible { background:var(--coral-soft); color:var(--coral); }
+.factor-rules-tooltip { position:absolute; top:calc(100% + 10px); right:0; z-index:5; display:grid; width:min(420px,calc(100vw - 64px)); max-height:min(440px,calc(100vh - 120px)); overflow:auto; visibility:hidden; opacity:0; border:1px solid var(--line); border-radius:14px; background:var(--surface); padding:14px; box-shadow:0 16px 32px rgba(18,44,43,.16); pointer-events:none; transform:translateY(-4px); transition:.18s ease; }
+.factor-rules-help:hover .factor-rules-tooltip,.factor-rules-help:focus-within .factor-rules-tooltip,.factor-rules-help.is-open .factor-rules-tooltip { visibility:visible; opacity:1; pointer-events:auto; transform:translateY(0); }
+.factor-rules-tooltip-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:1px solid var(--line); padding-bottom:10px; color:var(--teal); font-size:12px; }
+.factor-rules-tooltip-heading small { color:var(--muted); font-size:10px; }
+.factor-rules-list { display:grid; }
+.factor-rule { display:flex; justify-content:space-between; align-items:start; gap:14px; border-bottom:1px solid var(--line); padding:10px 0; }
+.factor-rule:last-child { border-bottom:0; padding-bottom:0; }
+.factor-rule-copy { display:grid; gap:3px; min-width:0; }
+.factor-rule-copy strong { color:var(--ink); font-size:11px; font-weight:500; line-height:1.4; }
+.factor-rule-copy small { color:var(--muted); font-size:10px; line-height:1.4; }
+.factor-rule>b { flex:0 0 auto; color:var(--coral); font-size:15px; font-variant-numeric:tabular-nums; font-weight:500; }
 .panel-description { margin:17px 0 22px; color:var(--muted); font-size:13px; line-height:1.7; }
 .markup-condition-layout { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:12px; align-items:stretch; margin-bottom:18px; }
 .markup-edit-controls { display:grid; gap:11px; }
