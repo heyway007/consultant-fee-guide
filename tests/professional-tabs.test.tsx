@@ -10,5 +10,9 @@ describe("ProfessionalTabs", () => {
     expect(tabs).toHaveLength(3);
     expect(tabs[0]).toHaveTextContent("ทุกกลุ่มวิชาชีพ");
     expect(tabs[0]).toHaveAttribute("aria-selected", "true");
+    expect(tabs[0].querySelector(".professional-tab-icon")).toBeInTheDocument();
+    expect(tabs[0].querySelector(".tab-index")).not.toBeInTheDocument();
+    expect(tabs[1].querySelector(".professional-tab-icon")).toBeInTheDocument();
+    expect(tabs[1].querySelector(".tab-index")).not.toBeInTheDocument();
   });
 });
