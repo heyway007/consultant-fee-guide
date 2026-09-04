@@ -100,7 +100,7 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .professional-heading,.professional-cell { text-align:right !important; }
 .professional-cell { color:var(--teal); font-size:12px; font-weight:400; line-height:1.45; white-space:normal; overflow-wrap:anywhere; }
 .personnel-role-heading { text-align:right !important; white-space:normal !important; }
-.personnel-role-cell { color:var(--teal); font-size:11px; line-height:1.45; text-align:right; white-space:normal; overflow-wrap:anywhere; }
+.personnel-role-cell { color:var(--teal); font-size:12px; line-height:1.45; text-align:right; white-space:normal; overflow-wrap:anywhere; }
 .rate-cards { display:none; }
 .markup-panel { align-self:start; position:sticky; top:16px; padding:24px; }
 .panel-heading { align-items:start; }
