@@ -10,5 +10,7 @@ describe("Markup Factor panel layout", () => {
     expect(stylesheet).toContain(".markup-panel { order:2; position:static; }");
     expect(stylesheet).toContain(".markup-condition-layout");
     expect(stylesheet).toContain(".markup-calculator");
+    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .markup-calculator");
+    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .rate-table .rate-value");
   });
 });
