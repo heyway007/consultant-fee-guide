@@ -1,8 +1,11 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import SearchFilters from "@/components/search-filters";
 
 const filters = { query: "", professionalGroup: "all", experience: "all", degree: "bachelor" as const };
+const stylesheet = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 
 describe("SearchFilters layout", () => {
   it("aligns the search field with the full filter row and keeps degree first", () => {
@@ -27,8 +30,11 @@ describe("SearchFilters layout", () => {
     expect(container.querySelectorAll(".clear-button")).toHaveLength(1);
     expect(container.querySelector(".clear-icon")).toBeInTheDocument();
     expect(container.querySelector(".search-icon")).toBeInTheDocument();
-    expect(container.querySelector(".filter-label-icon")).toBeInTheDocument();
+    expect(container.querySelector(".filter-label-title")).not.toBeInTheDocument();
+    expect(container.querySelector(".input-with-icon input")?.getAttribute("aria-label")).toBe("ค้นหากลุ่มวิชาชีพหรือหมายเหตุ");
+    expect(container.querySelector(".input-with-icon input")?.getAttribute("placeholder")).toBe("เช่น วิศวกรรม, สิ่งแวดล้อม");
     expect(container.querySelectorAll(".select-control")).toHaveLength(3);
     expect(container.querySelectorAll(".select-icon")).toHaveLength(3);
+    expect(stylesheet).toContain(".input-with-icon input:focus { border-color:transparent; box-shadow:none; }");
   });
 });

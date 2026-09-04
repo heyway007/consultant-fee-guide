@@ -65,8 +65,6 @@ h1 { margin-bottom:0; font-size:clamp(30px,4vw,50px); line-height:1.08; letter-s
 .clear-button:hover { text-decoration:underline; }
 .filter-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 .filter-grid label { display:grid; gap:7px; color:var(--muted); font-size:12px; font-weight:500; }
-.filter-label-title { display:inline-flex; align-items:center; gap:6px; }
-.filter-label-icon { width:12px; color:var(--coral); }
 .filter-span-2 { grid-column:span 2; }
 .filter-span-all { grid-column:1; }
 .input-with-icon { display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:11px; background:#fbfdfb; padding:0 12px; }
@@ -76,6 +74,7 @@ input,select { width:100%; border:1px solid var(--line); border-radius:11px; out
 select { appearance:none; padding-right:42px; }
 .select-icon { position:absolute; top:50%; right:16px; width:11px; color:var(--muted); pointer-events:none; transform:translateY(-50%); }
 .input-with-icon input { border:0; background:transparent; padding-left:0; }
+.input-with-icon input:focus { border-color:transparent; box-shadow:none; }
 input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--coral); box-shadow:0 0 0 3px rgba(229,107,79,.14); }
 .rate-table-shell { min-width:0; }
 .rate-table-scroll { overflow-x:auto; }
