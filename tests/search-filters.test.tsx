@@ -18,4 +18,13 @@ describe("SearchFilters layout", () => {
     expect(selects[1]).toHaveValue("all");
     expect(selects[2]).toHaveValue("all");
   });
+
+  it("uses Font Awesome icons for reset, search, and select controls", () => {
+    const { container } = render(<SearchFilters filters={filters} groups={["วิศวกรรม"]} experiences={[{ value: "1", label: "1 ปี" }]} onChange={() => undefined} />);
+
+    expect(container.querySelector(".clear-icon")).toBeInTheDocument();
+    expect(container.querySelector(".search-icon")).toBeInTheDocument();
+    expect(container.querySelectorAll(".select-control")).toHaveLength(3);
+    expect(container.querySelectorAll(".select-icon")).toHaveLength(3);
+  });
 });

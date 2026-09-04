@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faMagnifyingGlass, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import type { W16Degree, W16Filters } from "@/lib/types";
 
 type SearchFiltersProps = {
@@ -20,15 +22,25 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
 
   return (
     <section className="filter-card" aria-label="ตัวกรองข้อมูล">
+      <div className="filter-toolbar">
+        <p className="eyebrow">ค้นหาในเอกสาร ว16</p>
+        {hasFilters ? (
+          <div className="filter-actions">
+            <button className="clear-button" type="button" onClick={() => onChange({ query: "", professionalGroup: "all", experience: "all", degree: "all" })}>
+              <FontAwesomeIcon icon={faRotateLeft} className="clear-icon" aria-hidden="true" />
+              ล้างตัวกรอง
+            </button>
+          </div>
+        ) : null}
+      </div>
       <div className="filter-heading">
         <div>
-          <p className="eyebrow">ค้นหาในเอกสาร ว16</p>
           <h2>ค้นหาอัตราที่ต้องการ</h2>
         </div>
         <label className="search-field filter-search-field">
           <span>คำค้น</span>
           <div className="input-with-icon">
-            <span aria-hidden="true">⌕</span>
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" aria-hidden="true" />
             <input
               type="search"
               value={filters.query}
@@ -47,23 +59,32 @@ export default function SearchFilters({ filters, groups, experiences, onChange }
       <div className="filter-grid">
         <label>
           <span>วุฒิการศึกษา</span>
-          <select value={filters.degree} onChange={(event) => update("degree", event.target.value)}>
-            {degreeOptions.map((degree) => <option key={degree.value} value={degree.value}>{degree.label}</option>)}
-          </select>
+          <div className="select-control">
+            <select value={filters.degree} onChange={(event) => update("degree", event.target.value)}>
+              {degreeOptions.map((degree) => <option key={degree.value} value={degree.value}>{degree.label}</option>)}
+            </select>
+            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+          </div>
         </label>
         <label>
           <span>กลุ่มวิชาชีพ</span>
-          <select value={filters.professionalGroup} onChange={(event) => update("professionalGroup", event.target.value)}>
-            <option value="all">ทุกกลุ่มวิชาชีพ</option>
-            {groups.map((group) => <option key={group} value={group}>{group}</option>)}
-          </select>
+          <div className="select-control">
+            <select value={filters.professionalGroup} onChange={(event) => update("professionalGroup", event.target.value)}>
+              <option value="all">ทุกกลุ่มวิชาชีพ</option>
+              {groups.map((group) => <option key={group} value={group}>{group}</option>)}
+            </select>
+            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+          </div>
         </label>
         <label>
           <span>ประสบการณ์</span>
-          <select value={filters.experience} onChange={(event) => update("experience", event.target.value)}>
-            <option value="all">ทุกช่วงประสบการณ์</option>
-          {experiences.map((experience) => <option key={experience.value} value={experience.value}>{experience.label}</option>)}
-          </select>
+          <div className="select-control">
+            <select value={filters.experience} onChange={(event) => update("experience", event.target.value)}>
+              <option value="all">ทุกช่วงประสบการณ์</option>
+              {experiences.map((experience) => <option key={experience.value} value={experience.value}>{experience.label}</option>)}
+            </select>
+            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+          </div>
         </label>
       </div>
     </section>
