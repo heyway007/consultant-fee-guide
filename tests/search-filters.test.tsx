@@ -27,6 +27,7 @@ describe("SearchFilters layout", () => {
     expect(container.querySelectorAll(".clear-button")).toHaveLength(1);
     expect(container.querySelector(".clear-icon")).toBeInTheDocument();
     expect(container.querySelector(".search-icon")).toBeInTheDocument();
+    expect(container.querySelector(".filter-label-icon")).toBeInTheDocument();
     expect(container.querySelectorAll(".select-control")).toHaveLength(3);
     expect(container.querySelectorAll(".select-icon")).toHaveLength(3);
   });
