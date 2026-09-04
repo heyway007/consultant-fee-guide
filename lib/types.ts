@@ -25,7 +25,6 @@ export type W16RateRow = {
 export type W16MarkupFactor = {
   id: string;
   factor_type: string;
-  factor_group: string;
   factor_label: string;
   factor_value: number;
   description: string | null;

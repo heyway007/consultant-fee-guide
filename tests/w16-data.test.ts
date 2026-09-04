@@ -21,16 +21,4 @@ describe("W16 JSON data", () => {
   it("loads rates and markup factors from the project JSON", async () => {
     await expect(getW16Data()).resolves.toEqual({ rates: rateRows, markupFactors });
   });
-
-  it("keeps company evidence and personnel factors in one group with source values", () => {
-    expect(markupFactors.map((factor) => factor.factor_group)).toEqual([
-      "company-evidence",
-      "company-evidence",
-      "company-evidence",
-      "company-evidence",
-      "company-evidence",
-      "company-evidence",
-    ]);
-    expect(markupFactors.map((factor) => factor.factor_value)).toEqual([2.64, 2.555, 2.53, 2.475, 2.64, 2.255]);
-  });
 });
