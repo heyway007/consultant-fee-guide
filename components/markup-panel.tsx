@@ -59,7 +59,6 @@ export default function MarkupPanel({ factors, degree, experience, baseRate }: M
           <p className="eyebrow">ส่วนประกอบราคา</p>
           <h2>Markup Factor</h2>
         </div>
-        <span className="panel-icon" aria-hidden="true">×</span>
       </div>
       <p className="panel-description">เลือกเงื่อนไขให้ครบ ระบบจะแสดง Markup Factor ที่ตรงกับบุคลากร หน่วยงาน และหลักฐาน</p>
       <div className="markup-condition-layout" aria-label="เงื่อนไข Markup Factor">

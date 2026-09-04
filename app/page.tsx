@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import EmptyState from "@/components/empty-state";
+import BackToTop from "@/components/back-to-top";
 import HeroHeader from "@/components/hero-header";
 import MarkupPanel from "@/components/markup-panel";
 import ProfessionalTabs from "@/components/professional-tabs";
@@ -113,6 +114,7 @@ export default function Home() {
         </div>
       </section>
       <footer className="site-footer"><span>ข้อมูลอ้างอิง: หลักเกณฑ์ราคากลางการจ้างที่ปรึกษา</span><span>แสดงเพื่อช่วยค้นหาและเปรียบเทียบข้อมูล</span></footer>
+      <BackToTop />
     </main>
   );
 }
