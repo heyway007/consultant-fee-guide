@@ -78,7 +78,7 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .rate-table thead th[aria-selected=true] { background:#d9eee5; color:var(--teal-deep); }
 .rate-table tbody th { color:var(--teal); text-align:left; font-weight:500; }
 .rate-table tbody tr:last-child th,.rate-table tbody tr:last-child td { border-bottom:0; }
-.rate-table tbody tr:hover { background:#fbfdfb; }
+.rate-table tbody tr:hover { background:#e2eee8; }
 .rate-value { color:var(--teal-deep); font-size:19px; font-variant-numeric:tabular-nums; font-weight:400; letter-spacing:.01em; }
 .degree-selected { background:#fff4ef !important; color:#c84f37; font-weight:500; }
 .experience-number { display:block; font-size:15px; font-weight:600; }
