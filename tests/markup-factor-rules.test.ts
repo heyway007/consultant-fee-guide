@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { markupFactors } from "@/lib/w16-data";
-import { findMarkupFactor } from "@/lib/markup-factors";
+import { findMarkupFactor, getPersonnelRole } from "@/lib/markup-factors";
 import type { MarkupFactorSelection } from "@/lib/markup-factors";
 
 const rules = markupFactors as unknown as Array<Record<string, unknown>>;
@@ -52,5 +52,17 @@ describe("Markup Factor rules", () => {
     expect(findMarkupFactor(markupFactors, selection)?.id).toBe("company-main-two-evidence");
     expect(findMarkupFactor(markupFactors, { ...selection, personnelRole: "assistant" })?.id).toBe("company-assistant");
     expect(findMarkupFactor(markupFactors, { ...selection, organizationType: "government" })?.id).toBe("government-main");
+    expect(findMarkupFactor(markupFactors, { organizationType: "independent", personnelRole: "any", evidenceCount: "any" })?.id).toBe("independent-consultant");
+  });
+
+  it("derives the personnel role from degree and experience thresholds in the guidance", () => {
+    expect(getPersonnelRole("bachelor", "10")).toBe("assistant");
+    expect(getPersonnelRole("bachelor", "11")).toBe("main");
+    expect(getPersonnelRole("master", "5")).toBe("assistant");
+    expect(getPersonnelRole("master", "6")).toBe("main");
+    expect(getPersonnelRole("doctorate", "2")).toBe("assistant");
+    expect(getPersonnelRole("doctorate", "3")).toBe("main");
+    expect(getPersonnelRole("all", "11")).toBeNull();
+    expect(getPersonnelRole("bachelor", "all")).toBeNull();
   });
 });

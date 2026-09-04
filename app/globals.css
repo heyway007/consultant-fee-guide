@@ -95,6 +95,10 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .markup-filters label { display:grid; gap:6px; color:var(--muted); font-size:11px; font-weight:500; }
 .markup-filters select { padding-block:10px; font-size:12px; }
 .markup-filters select:disabled { cursor:not-allowed; opacity:.55; }
+.derived-role { display:grid; gap:5px; border:1px solid var(--line); border-radius:11px; background:var(--surface-soft); padding:10px 12px; }
+.derived-role span { color:var(--muted); font-size:11px; }
+.derived-role strong { color:var(--teal); font-size:13px; font-weight:500; }
+.derived-role.is-pending strong { color:var(--muted); font-weight:400; }
 .factor-result { display:flex; justify-content:space-between; gap:12px; border:1px solid #f2c7ba; border-radius:12px; background:var(--coral-soft); padding:14px; }
 .factor-result .eyebrow { margin-bottom:7px; font-size:10px; }
 .factor-result strong,.factor-result span { display:block; }

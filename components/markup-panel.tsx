@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { findMarkupFactor } from "@/lib/markup-factors";
-import type { W16EvidenceCount, W16MarkupFactor, W16OrganizationType, W16PersonnelRole } from "@/lib/types";
+import { findMarkupFactor, getPersonnelRole } from "@/lib/markup-factors";
+import type { W16Degree, W16EvidenceCount, W16MarkupFactor, W16OrganizationType } from "@/lib/types";
 
 type MarkupPanelProps = {
   factors: W16MarkupFactor[];
+  degree: W16Degree | "all";
+  experience: string;
 };
 
 const factorFormatter = new Intl.NumberFormat("th-TH", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
@@ -18,11 +20,6 @@ const organizationOptions: { value: W16OrganizationType; label: string }[] = [
   { value: "independent", label: "ที่ปรึกษาอิสระ" },
 ];
 
-const roleOptions: { value: W16PersonnelRole; label: string }[] = [
-  { value: "main", label: "บุคลากรหลัก" },
-  { value: "assistant", label: "บุคลากรผู้ช่วย" },
-];
-
 const evidenceOptions: { value: W16EvidenceCount; label: string }[] = [
   { value: "3", label: "ครบ 3 ข้อ" },
   { value: "2", label: "ครบ 2 ข้อ" },
@@ -30,13 +27,15 @@ const evidenceOptions: { value: W16EvidenceCount; label: string }[] = [
   { value: "0", label: "ไม่มีหลักฐาน" },
 ];
 
-export default function MarkupPanel({ factors }: MarkupPanelProps) {
+export default function MarkupPanel({ factors, degree, experience }: MarkupPanelProps) {
   const [organizationType, setOrganizationType] = useState<W16OrganizationType>("company-association");
-  const [personnelRole, setPersonnelRole] = useState<W16PersonnelRole>("main");
   const [evidenceCount, setEvidenceCount] = useState<W16EvidenceCount>("3");
-  const selectedFactor = findMarkupFactor(factors, { organizationType, personnelRole, evidenceCount });
+  const personnelRole = getPersonnelRole(degree, experience);
   const isCompany = organizationType === "company-association";
+  const selectedRole = personnelRole ?? (organizationType === "independent" ? "any" : null);
+  const selectedFactor = selectedRole ? findMarkupFactor(factors, { organizationType, personnelRole: selectedRole, evidenceCount }) : undefined;
   const usesEvidence = isCompany && personnelRole === "main";
+  const personnelRoleLabel = organizationType === "independent" ? "ไม่แยกบุคลากรหลัก/ผู้ช่วย" : personnelRole === "main" ? "บุคลากรหลัก" : personnelRole === "assistant" ? "บุคลากรผู้ช่วย" : "เลือกวุฒิและประสบการณ์ด้านบน";
 
   return (
     <aside className="markup-panel" aria-label="Markup Factor">
@@ -49,15 +48,10 @@ export default function MarkupPanel({ factors }: MarkupPanelProps) {
       </div>
       <p className="panel-description">เลือกเงื่อนไขให้ครบ ระบบจะแสดง Markup Factor ที่ตรงกับบุคลากร หน่วยงาน และหลักฐาน</p>
       <div className="markup-filters" aria-label="เงื่อนไข Markup Factor">
-        <label>
-          <span>บุคลากร</span>
-          <div className="select-control">
-            <select value={personnelRole} onChange={(event) => setPersonnelRole(event.target.value as W16PersonnelRole)}>
-              {roleOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-            </select>
-            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
-          </div>
-        </label>
+        <div className={`derived-role${personnelRole ? "" : " is-pending"}`}>
+          <span>บุคลากรตามวุฒิ/ประสบการณ์</span>
+          <strong>{personnelRoleLabel}</strong>
+        </div>
         <label>
           <span>ประเภทหน่วยงาน</span>
           <div className="select-control">

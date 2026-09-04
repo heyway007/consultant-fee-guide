@@ -99,7 +99,7 @@ export default function Home() {
             <div className="results-heading"><div><p className="eyebrow">{hasSearchCriteria ? "ผลการค้นหา" : "ตารางอัตราเงินเดือนพื้นฐาน"}</p><h2>{hasSearchCriteria ? "รายการที่ตรงกับเงื่อนไข" : selectedGroup || "กำลังเตรียมข้อมูล"}</h2></div><span className="result-count">{numberFormatter.format(visibleRows.length)} แถว</span></div>
             {isLoading ? <div className="loading-box"><span className="loading-spinner" aria-hidden="true" />กำลังโหลดข้อมูลจากแหล่งข้อมูล...</div> : error ? <div className="error-box"><strong>เกิดข้อผิดพลาดในการโหลดข้อมูล</strong><span>{error}</span><button type="button" className="primary-button" onClick={() => void loadData()}>ลองใหม่</button></div> : visibleRows.length > 0 ? <RateTable rows={visibleRows} selectedDegree={filters.degree} /> : <EmptyState onReset={resetFilters} />}
           </section>
-          <MarkupPanel factors={data.markupFactors} />
+          <MarkupPanel factors={data.markupFactors} degree={filters.degree} experience={filters.experience} />
         </div>
       </section>
       <footer className="site-footer"><span>ข้อมูลอ้างอิง: หลักเกณฑ์ราคากลางการจ้างที่ปรึกษา</span><span>แสดงเพื่อช่วยค้นหาและเปรียบเทียบข้อมูล</span></footer>
