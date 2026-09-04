@@ -31,4 +31,12 @@ describe("RateTable", () => {
     expect(document.querySelector(".professional-column")).toBeInTheDocument();
     expect(screen.queryByRole("columnheader", { name: "แหล่งอ้างอิง" })).not.toBeInTheDocument();
   });
+
+  it("uses one table header row with an icon for each column", () => {
+    const { container } = render(<RateTable rows={[row]} selectedDegree="all" />);
+
+    expect(container.querySelectorAll(".rate-table thead tr")).toHaveLength(1);
+    expect(container.querySelectorAll(".table-heading-icon")).toHaveLength(5);
+    expect(container.querySelector("thead th")?.textContent).toContain("ประสบการณ์");
+  });
 });

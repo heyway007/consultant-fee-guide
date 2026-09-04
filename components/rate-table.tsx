@@ -1,4 +1,6 @@
 import type { W16Degree, W16RateRow } from "@/lib/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase, faClock, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 
 type RateTableProps = {
   rows: W16RateRow[];
@@ -27,14 +29,11 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
           </colgroup>
           <thead>
             <tr>
-              <th scope="col" rowSpan={2}>ประสบการณ์</th>
-              <th scope="col" colSpan={3} className="degree-group">ปริญญา</th>
-              <th scope="col" rowSpan={2} className="professional-heading">วิชาชีพ</th>
-            </tr>
-            <tr>
-              <th scope="col" aria-selected={selectedDegree === "bachelor"} className={degreeClass(selectedDegree, "bachelor")}>ปริญญาตรี</th>
-              <th scope="col" aria-selected={selectedDegree === "master"} className={degreeClass(selectedDegree, "master")}>ปริญญาโท</th>
-              <th scope="col" aria-selected={selectedDegree === "doctorate"} className={degreeClass(selectedDegree, "doctorate")}>ปริญญาเอก</th>
+              <th scope="col"><span className="table-heading-label"><FontAwesomeIcon icon={faClock} className="table-heading-icon" aria-hidden="true" />ประสบการณ์</span></th>
+              <th scope="col" aria-selected={selectedDegree === "bachelor"} className={degreeClass(selectedDegree, "bachelor")}><span className="table-heading-label"><FontAwesomeIcon icon={faGraduationCap} className="table-heading-icon" aria-hidden="true" />ปริญญาตรี</span></th>
+              <th scope="col" aria-selected={selectedDegree === "master"} className={degreeClass(selectedDegree, "master")}><span className="table-heading-label"><FontAwesomeIcon icon={faGraduationCap} className="table-heading-icon" aria-hidden="true" />ปริญญาโท</span></th>
+              <th scope="col" aria-selected={selectedDegree === "doctorate"} className={degreeClass(selectedDegree, "doctorate")}><span className="table-heading-label"><FontAwesomeIcon icon={faGraduationCap} className="table-heading-icon" aria-hidden="true" />ปริญญาเอก</span></th>
+              <th scope="col" className="professional-heading"><span className="table-heading-label"><FontAwesomeIcon icon={faBriefcase} className="table-heading-icon" aria-hidden="true" />วิชาชีพ</span></th>
             </tr>
           </thead>
           <tbody>

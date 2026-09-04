@@ -76,6 +76,9 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .rate-table thead th { background:var(--surface-soft); color:var(--teal); font-size:12px; font-weight:500; white-space:nowrap; }
 .rate-table thead tr:first-child th:first-child { border-radius:12px 0 0 0; text-align:left; }
 .rate-table thead tr:first-child th:last-child { border-radius:0 12px 0 0; }
+.table-heading-label { display:inline-flex; align-items:center; justify-content:flex-end; gap:7px; }
+.rate-table thead th:first-child .table-heading-label { justify-content:flex-start; }
+.table-heading-icon { width:13px; color:var(--coral); }
 .rate-table thead th[aria-selected=true] { background:#d9eee5; color:var(--teal-deep); }
 .rate-table tbody th { color:var(--teal); text-align:left; font-weight:500; }
 .rate-table tbody tr:last-child th,.rate-table tbody tr:last-child td { border-bottom:0; }
