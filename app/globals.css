@@ -180,6 +180,13 @@ button:focus-visible { outline:3px solid rgba(229,107,79,.35); outline-offset:3p
 :root[data-theme="dark"] .rate-card { background:#152a27; }
 :root[data-theme="dark"] .professional-tabs { background:rgba(18,36,33,.94); }
 :root[data-theme="dark"] .markup-calculator { border-color:#2d4944; background:#162c29; }
+:root[data-theme="dark"] .derived-role { color:#f4fbf8; }
+:root[data-theme="dark"] .derived-role strong { color:#f4fbf8; }
+:root[data-theme="dark"] .factor-result { border-color:#3a6860; background:#1c3b37; }
+:root[data-theme="dark"] .factor-result strong { color:#f4fbf8; }
+:root[data-theme="dark"] .markup-calculator h3,
+:root[data-theme="dark"] .markup-calculator .calculator-description,
+:root[data-theme="dark"] .markup-calculator .calculator-field { color:#f4fbf8; }
 :root[data-theme="dark"] .calculator-input-wrap input { background:#122421; color:#f4fbf8; }
 :root[data-theme="dark"] .calculator-result { background:#1c4d48; }
 @media (max-width:960px) { .content-grid { grid-template-columns:1fr; } .markup-panel { order:2; position:static; } .filter-grid { grid-template-columns:1fr 1fr; } }
