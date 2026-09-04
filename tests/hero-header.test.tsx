@@ -8,5 +8,6 @@ describe("HeroHeader", () => {
 
     expect(screen.getByRole("banner")).toHaveTextContent("คู่มือเทียบราคาค่าจ้างที่ปรึกษา");
     expect(screen.getByRole("banner")).toHaveTextContent(/^คู่มือเทียบราคาค่าจ้างที่ปรึกษา$/);
+    expect(screen.getByRole("img", { name: "โลโก้ TCEB" })).toBeInTheDocument();
   });
 });
