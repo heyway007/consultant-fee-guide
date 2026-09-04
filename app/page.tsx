@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import EmptyState from "@/components/empty-state";
+import HeroHeader from "@/components/hero-header";
 import MarkupPanel from "@/components/markup-panel";
 import ProfessionalTabs from "@/components/professional-tabs";
 import RateTable from "@/components/rate-table";
@@ -87,17 +88,7 @@ export default function Home() {
 
   return (
     <main className="site-shell">
-      <header className="hero-section">
-        <div className="hero-topline">
-          <span className="brand-mark" aria-hidden="true">ว16</span>
-          <span className="source-label">หลักเกณฑ์ราคากลางการจ้างที่ปรึกษา</span>
-          <span className={`connection-pill ${data.source === "supabase" ? "is-connected" : ""}`}><span className="status-dot" aria-hidden="true" />{data.source === "supabase" ? "เชื่อมต่อฐานข้อมูล" : "โหมดตัวอย่าง"}</span>
-        </div>
-        <div className="hero-content">
-          <div className="hero-copy"><p className="eyebrow">ค้นง่าย • เทียบชัด • อ้างอิงได้</p><h1>คู่มือเทียบราคาค่าจ้างที่ปรึกษา</h1><p className="hero-description">ค้นหาอัตราเงินเดือนพื้นฐานและ Markup Factor จากเอกสาร ว16 ในมุมมองเดียว ไม่ต้องเลื่อนหาใน PDF หลายหน้า</p></div>
-          <div className="hero-note"><span className="note-number">{numberFormatter.format(data.rates.length)}</span><span>แถวข้อมูลที่เตรียมไว้</span></div>
-        </div>
-      </header>
+      <HeroHeader />
 
       <section className="content-section">
         <SearchFilters filters={filters} groups={groups} experiences={experiences} onChange={handleFiltersChange} />
