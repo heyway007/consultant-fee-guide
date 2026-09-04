@@ -2,6 +2,10 @@ export type W16Degree = "bachelor" | "master" | "doctorate";
 
 export type W16Mode = "browse" | "search";
 
+export type W16OrganizationType = "company-association" | "government" | "independent";
+export type W16PersonnelRole = "main" | "assistant" | "any";
+export type W16EvidenceCount = "3" | "2" | "1" | "0" | "any";
+
 export type W16Filters = {
   query: string;
   professionalGroup: string;
@@ -25,6 +29,9 @@ export type W16RateRow = {
 export type W16MarkupFactor = {
   id: string;
   factor_type: string;
+  organization_type: W16OrganizationType;
+  personnel_role: W16PersonnelRole;
+  evidence_count: W16EvidenceCount;
   factor_label: string;
   factor_value: number;
   description: string | null;

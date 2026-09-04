@@ -91,6 +91,16 @@ input:focus,select:focus,.input-with-icon:focus-within { border-color:var(--cora
 .panel-heading { align-items:start; }
 .panel-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--coral-soft); color:var(--coral); font-size:23px; font-weight:400; }
 .panel-description { margin:17px 0 22px; color:var(--muted); font-size:13px; line-height:1.7; }
+.markup-filters { display:grid; gap:11px; margin-bottom:18px; }
+.markup-filters label { display:grid; gap:6px; color:var(--muted); font-size:11px; font-weight:500; }
+.markup-filters select { padding-block:10px; font-size:12px; }
+.markup-filters select:disabled { cursor:not-allowed; opacity:.55; }
+.factor-result { display:flex; justify-content:space-between; gap:12px; border:1px solid #f2c7ba; border-radius:12px; background:var(--coral-soft); padding:14px; }
+.factor-result .eyebrow { margin-bottom:7px; font-size:10px; }
+.factor-result strong,.factor-result span { display:block; }
+.factor-result strong { color:var(--teal); font-size:13px; font-weight:500; }
+.factor-result span { max-width:220px; margin-top:5px; color:var(--muted); font-size:11px; line-height:1.5; }
+.factor-empty { border:1px dashed var(--line); border-radius:12px; padding:18px 14px; color:var(--muted); font-size:12px; text-align:center; }
 .factor-list { display:grid; gap:10px; }
 .factor-item { display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); padding-top:13px; }
 .factor-item strong,.factor-item span { display:block; }
