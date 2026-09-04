@@ -14,5 +14,7 @@ describe("Markup Factor panel layout", () => {
     expect(stylesheet).toContain(":root[data-theme=\"dark\"] .rate-table .rate-value");
     expect(stylesheet).toContain(":root[data-theme=\"dark\"] .derived-role");
     expect(stylesheet).toContain(":root[data-theme=\"dark\"] .factor-result");
+    expect(stylesheet).toContain(".rate-value { color:var(--teal-deep); font-size:17px;");
+    expect(stylesheet).toContain(".rate-card-grid strong { margin-top:4px; color:var(--teal); font-size:16px;");
   });
 });
