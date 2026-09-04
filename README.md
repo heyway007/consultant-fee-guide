@@ -19,23 +19,7 @@ npm run dev
 
 เปิด `http://localhost:3000`
 
-เมื่อยังไม่ตั้งค่า Supabase เว็บจะแสดงข้อมูลจาก fixture ที่ถอดครบ 10 กลุ่ม × 31 ช่วงประสบการณ์ (1–30 ปี และมากกว่า 30 ปี) สำหรับ preview และติดป้าย `โหมดตัวอย่าง` ชัดเจน
-
-## Supabase
-
-1. สร้างโปรเจ็กต์ Supabase
-2. รันไฟล์ `supabase/migrations/001_w16_schema.sql` ใน SQL Editor
-3. คัดลอก `.env.example` เป็น `.env.local` แล้วใส่ค่า:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
-```
-
-4. รัน `node scripts/seed-w16.mjs` จากเครื่องที่ตั้งค่า service role key แล้ว
-
-service role key ใช้เฉพาะ seed script และไม่ควรใส่ในโค้ดหน้าเว็บ
+เว็บใช้ข้อมูลจากไฟล์ JSON ในโฟลเดอร์ `data/` โดยตรง ไม่ต้องตั้งค่าฐานข้อมูลหรือ environment variable เพิ่มเติม
 
 ## ตรวจสอบโปรเจ็กต์
 
@@ -45,4 +29,4 @@ npm run lint
 npm run build
 ```
 
-ข้อมูลใน `data/` เป็น fixture สำหรับ preview ที่ถอดจากตาราง ว16 ครบทุกแถวแล้ว โดยคง `source_page` และ `source_table` ไว้ทุกระเบียน หากใช้ Supabase ให้รัน seed script เพื่ออัปเดตข้อมูลชุดเดียวกันลงฐานข้อมูล
+ข้อมูลใน `data/` ถอดจากตาราง ว16 ครบทุกแถวแล้ว โดยคง `source_page` และ `source_table` ไว้ทุกระเบียน

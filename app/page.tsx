@@ -9,7 +9,7 @@ import RateTable from "@/components/rate-table";
 import SearchFilters from "@/components/search-filters";
 import { defaultFilters } from "@/lib/default-filters";
 import { getInitialGroupFromSearch } from "@/lib/group-navigation";
-import { getW16Data, previewMarkupFactors, previewRateRows, type W16Data } from "@/lib/w16-data";
+import { getW16Data, markupFactors, rateRows, type W16Data } from "@/lib/w16-data";
 import { groupRateRows, selectVisibleRows } from "@/lib/w16-filter";
 import type { W16Filters } from "@/lib/types";
 
@@ -29,7 +29,7 @@ function getServerLocationGroup() {
 }
 
 export default function Home() {
-  const [data, setData] = useState<W16Data>({ rates: previewRateRows, markupFactors: previewMarkupFactors, source: "preview" });
+  const [data, setData] = useState<W16Data>({ rates: rateRows, markupFactors });
   const locationGroup = useSyncExternalStore(subscribeToLocation, getClientLocationGroup, getServerLocationGroup);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [filters, setFilters] = useState<W16Filters>(defaultFilters);
