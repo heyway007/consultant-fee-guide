@@ -28,10 +28,22 @@ npm run dev
 ```powershell
 npm run build:cloudflare
 npm run preview:cloudflare
-npm run deploy:cloudflare
 ```
 
-สำหรับ Cloudflare Workers Builds ให้ใช้ Build command เป็น `npm run build:cloudflare` ระบบจะอ่านการตั้งค่าจาก `wrangler.jsonc` และใช้ output ใน `.open-next/` สำหรับ Worker
+สำหรับ Cloudflare Workers Builds ต้องกำหนดคำสั่งแยกกันดังนี้:
+
+```text
+Build command:  npm run build:cloudflare
+Deploy command: npm run deploy:cloudflare
+```
+
+อย่าใช้ Deploy command ค่าเริ่มต้น `npx wrangler deploy` เพราะ OpenNext ต้องเตรียมและ deploy output ผ่าน `opennextjs-cloudflare` เอง ระบบจะอ่านการตั้งค่าจาก `wrangler.jsonc` และใช้ output ใน `.open-next/` สำหรับ Worker
+
+ถ้าต้องการ build และ deploy จากเครื่องในคำสั่งเดียว ให้ใช้:
+
+```powershell
+npm run release:cloudflare
+```
 
 ## ตรวจสอบโปรเจ็กต์
 
