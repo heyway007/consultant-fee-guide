@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { W16RateRow } from "@/lib/types";
 import RateTable from "@/components/rate-table";
@@ -85,5 +85,16 @@ describe("RateTable", () => {
     expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("ตรี: ผู้ช่วย");
     expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("โท: หลัก");
     expect(container.querySelector(".personnel-role-cell")).toHaveTextContent("เอก: หลัก");
+  });
+
+  it("keeps each degree and its personnel role together when all degrees are shown", () => {
+    const { container, rerender } = render(<RateTable rows={[row]} selectedDegree="all" />);
+    const cell = container.querySelector<HTMLElement>(".personnel-role-cell")!;
+    expect(within(cell).getByText("ตรี: ผู้ช่วย", { exact: true })).toBeInTheDocument();
+    expect(within(cell).getByText("โท: หลัก", { exact: true })).toBeInTheDocument();
+    expect(within(cell).getByText("เอก: หลัก", { exact: true })).toBeInTheDocument();
+    rerender(<RateTable rows={[row]} selectedDegree="master" />);
+    expect(cell).toHaveTextContent("บุคลากรหลัก");
+    expect(within(cell).queryByText("ตรี: ผู้ช่วย")).not.toBeInTheDocument();
   });
 });

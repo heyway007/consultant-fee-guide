@@ -114,7 +114,15 @@ export default function RateTable({ rows, selectedDegree, paginationKey = "" }: 
                 <td className={`${degreeClass(selectedDegree, "master")} rate-value rate-highlight`}>{formatRate(row.master_rate)}</td>
                 <td className={`${degreeClass(selectedDegree, "doctorate")} rate-value rate-highlight`}>{formatRate(row.doctorate_rate)}</td>
                 <td className="professional-cell">{row.professional_group}</td>
-                <td className="personnel-role-cell">{formatPersonnelRoles(row, selectedDegree)}</td>
+                <td className="personnel-role-cell">
+                  {selectedDegree === "all" ? (
+                    <div className="personnel-role-parts">
+                      {degreeOptions.map((degree) => (
+                        <span key={degree.value}>{degree.label}: {getPersonnelRoleLabel(degree.value, row.experience_years)}</span>
+                      ))}
+                    </div>
+                  ) : formatPersonnelRoles(row, selectedDegree)}
+                </td>
               </tr>
             ))}
           </tbody>
