@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import type { W16Degree, W16RateRow } from "@/lib/types";
 import { getPersonnelRole as derivePersonnelRole } from "@/lib/markup-factors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,16 @@ type RateTableProps = {
 };
 
 const numberFormatter = new Intl.NumberFormat("th-TH");
+const compactScreenQuery = "(min-width: 961px) and (max-height: 850px)";
+
+function subscribeToCompactScreen(onChange: () => void) {
+  const media = window.matchMedia(compactScreenQuery);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function getCompactScreen() { return window.matchMedia(compactScreenQuery).matches; }
+function getServerCompactScreen() { return false; }
 
 const degreeOptions: { value: W16Degree; label: string }[] = [
   { value: "bachelor", label: "ตรี" },
@@ -41,8 +51,10 @@ function formatPersonnelRoles(row: W16RateRow, selectedDegree: W16Degree | "all"
 }
 
 export default function RateTable({ rows, selectedDegree, paginationKey = "" }: RateTableProps) {
-  const [pageSize, setPageSize] = useState("10");
-  const resultKey = `${paginationKey}:${selectedDegree}:${rows.map((row) => row.id).join(",")}`;
+  const isCompactScreen = useSyncExternalStore(subscribeToCompactScreen, getCompactScreen, getServerCompactScreen);
+  const [chosenPageSize, setPageSize] = useState<string | null>(null);
+  const pageSize = chosenPageSize ?? (isCompactScreen ? "5" : "10");
+  const resultKey = `${paginationKey}:${selectedDegree}:${pageSize}:${rows.map((row) => row.id).join(",")}`;
   const [pagination, setPagination] = useState({ key: resultKey, page: 1 });
   if (pagination.key !== resultKey) {
     setPagination({ key: resultKey, page: 1 });
@@ -61,6 +73,7 @@ export default function RateTable({ rows, selectedDegree, paginationKey = "" }: 
           แสดง
           <span className="select-control">
             <select aria-label="จำนวนรายการต่อหน้า" value={pageSize} onChange={(event) => { setPageSize(event.target.value); goToPage(1); }}>
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>

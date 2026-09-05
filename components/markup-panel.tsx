@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCircleInfo, faPercent } from "@fortawesome/free-solid-svg-icons";
+import { faCalculator, faChevronDown, faCircleInfo, faPercent, faUsers } from "@fortawesome/free-solid-svg-icons";
 import MarkupCalculator from "@/components/markup-calculator";
 import SupportStaffPanel from "@/components/support-staff-panel";
 import { findMarkupFactor, getPersonnelRole, resolvePersonnelRole, type PersonnelRoleSelection } from "@/lib/markup-factors";
@@ -38,6 +38,7 @@ const personnelRoleOptions: { value: PersonnelRoleSelection; label: string }[] =
 ];
 
 export default function MarkupPanel({ factors, degree, experience, baseRate, supportStaff }: MarkupPanelProps) {
+  const [activeCalculator, setActiveCalculator] = useState("consultant");
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [organizationType, setOrganizationType] = useState<W16OrganizationType>("company-association");
   const [evidenceCount, setEvidenceCount] = useState<W16EvidenceCount>("3");
@@ -56,7 +57,18 @@ export default function MarkupPanel({ factors, degree, experience, baseRate, sup
       : "เลือกวุฒิและประสบการณ์ด้านบน";
 
   return (
-    <aside className="markup-panel" aria-label="Markup Factor">
+    <aside className="markup-panel" aria-label="ส่วนคำนวณค่าจ้าง">
+      <div className="calculator-tabs" role="tablist" aria-label="ประเภทการคำนวณ" onKeyDown={(event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === "Home" ? "consultant" : event.key === "End" ? "support" : activeCalculator === "consultant" ? "support" : "consultant";
+        setActiveCalculator(next);
+        event.currentTarget.querySelector<HTMLButtonElement>(`#calculator-tab-${next}`)?.focus();
+      }}>
+        <button type="button" id="calculator-tab-consultant" role="tab" aria-selected={activeCalculator === "consultant"} aria-controls="calculator-panel-consultant" tabIndex={activeCalculator === "consultant" ? 0 : -1} onClick={() => setActiveCalculator("consultant")}><FontAwesomeIcon icon={faCalculator} aria-hidden="true" />ที่ปรึกษา</button>
+        <button type="button" id="calculator-tab-support" role="tab" aria-selected={activeCalculator === "support"} aria-controls="calculator-panel-support" tabIndex={activeCalculator === "support" ? 0 : -1} onClick={() => setActiveCalculator("support")}><FontAwesomeIcon icon={faUsers} aria-hidden="true" />บุคลากรสนับสนุน</button>
+      </div>
+      <div id="calculator-panel-consultant" className="calculator-tab-panel" role="tabpanel" aria-labelledby="calculator-tab-consultant" hidden={activeCalculator !== "consultant"}>
       <div className="panel-heading">
         <div>
           <p className="eyebrow">ส่วนประกอบราคา</p>
@@ -140,9 +152,12 @@ export default function MarkupPanel({ factors, degree, experience, baseRate, sup
       ) : (
         <div className="factor-empty">ไม่พบ Markup Factor สำหรับเงื่อนไขนี้</div>
       )}
-      <SupportStaffPanel staff={supportStaff} />
       <MarkupCalculator baseRate={baseRate} markupFactor={selectedFactor?.factor_value ?? null} />
-      <p className="panel-footnote">* บุคลากรสนับสนุนไม่มี Markup Factor ให้ใช้อัตรา Billing Rate ตามเอกสาร</p>
+      </div>
+      <div id="calculator-panel-support" className="calculator-tab-panel" role="tabpanel" aria-labelledby="calculator-tab-support" hidden={activeCalculator !== "support"}>
+        <SupportStaffPanel staff={supportStaff} />
+        <p className="panel-footnote">บุคลากรสนับสนุนใช้อัตรารายเดือน × จำนวนเดือน × สัดส่วนการทำงาน โดยไม่คูณ Markup Factor</p>
+      </div>
     </aside>
   );
 }

@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { W16RateRow } from "@/lib/types";
 import RateTable from "@/components/rate-table";
 
@@ -17,7 +17,18 @@ const row: W16RateRow = {
 };
 
 describe("RateTable", () => {
-  afterEach(cleanup);
+  beforeEach(() => {
+    vi.stubGlobal("matchMedia", vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
+  });
+  afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+  it("starts with five rows on a short notebook screen but allows a larger page", () => {
+    vi.stubGlobal("matchMedia", vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
+    const rows = Array.from({ length: 20 }, (_, index) => ({ ...row, id: `row-${index}` }));
+    const { container } = render(<RateTable rows={rows} selectedDegree="all" />);
+    expect(container.querySelectorAll("tbody tr")).toHaveLength(5);
+    fireEvent.change(screen.getByRole("combobox", { name: "จำนวนรายการต่อหน้า" }), { target: { value: "20" } });
+    expect(container.querySelectorAll("tbody tr")).toHaveLength(20);
+  });
   it("paginates desktop and mobile rows and resets on page size or filter changes", () => {
     const rows = Array.from({ length: 61 }, (_, index) => ({ ...row, id: `row-${index}`, experience_label: `${index + 1} ปี` }));
     const { container, rerender } = render(<RateTable rows={rows} selectedDegree="all" paginationKey="initial" />);
