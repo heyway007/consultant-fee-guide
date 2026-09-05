@@ -71,35 +71,35 @@ export default function MarkupCalculator({ baseRate, markupFactor }: MarkupCalcu
       <p className="calculator-description">แก้ไขตัวเลขแต่ละช่องได้อิสระ ระบบจะคำนวณผลลัพธ์ให้ทันที</p>
       <div className="calculator-input-grid">
         <label className="calculator-field calculator-field-wide">
-          <span>1. ฐานเงินเดือน (จากประสบการณ์)</span>
+          <span>ฐานเงินเดือน</span>
           <div className="calculator-input-wrap">
             <input aria-label="ฐานเงินเดือน" inputMode="decimal" value={baseSalary} onChange={(event) => setBaseSalaryOverride(event.target.value)} placeholder="เช่น 50,000" />
             <small>บาท</small>
           </div>
         </label>
         <label className="calculator-field">
-          <span>2. Markup Factor ตามกฎ</span>
+          <span>Markup Factor</span>
           <div className="calculator-input-wrap">
             <input aria-label="Markup Factor" inputMode="decimal" value={factor} onChange={(event) => setFactorOverride(event.target.value)} placeholder="เช่น 2.640" />
             <small>เท่า</small>
           </div>
         </label>
         <label className="calculator-field">
-          <span>3. จำนวนเดือนที่ทำงาน</span>
+          <span>ระยะเวลาทำงาน</span>
           <div className="calculator-input-wrap">
             <input aria-label="จำนวนเดือนที่ทำงาน" inputMode="decimal" value={months} onChange={(event) => setMonths(event.target.value)} placeholder="เช่น 3" />
             <small>เดือน</small>
           </div>
         </label>
         <label className="calculator-field calculator-field-wide">
-          <span>4. สัดส่วนการทำงาน (1-100%)</span>
+          <span>สัดส่วนงาน (1–100%)</span>
           <div className="calculator-input-wrap">
             <input aria-label="สัดส่วนการทำงาน" inputMode="decimal" value={workPercentage} onChange={(event) => setWorkPercentage(event.target.value)} placeholder="เช่น 50" />
             <small>%</small>
           </div>
         </label>
       </div>
-      <div className="calculator-result" aria-live="polite">
+      <div className={`calculator-result${formattedResult === null ? " is-incomplete" : ""}`} aria-live="polite">
         <span>รวมค่าจ้างโดยประมาณ</span>
         <div className="calculator-result-value">
           <strong>{formattedResult === null ? "กรอกข้อมูลให้ครบ" : `${formattedResult} บาท`}</strong>

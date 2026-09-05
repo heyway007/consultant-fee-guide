@@ -27,7 +27,17 @@ function getGroupIcon(group: string) {
 
 export default function ProfessionalTabs({ groups, activeGroup, onChange }: ProfessionalTabsProps) {
   return (
-    <div className="professional-tabs" role="tablist" aria-label="กลุ่มวิชาชีพ">
+    <div className="professional-tabs" role="tablist" aria-label="กลุ่มวิชาชีพ" onKeyDown={(event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const options = ["all", ...groups];
+      const current = Math.max(0, options.indexOf(activeGroup));
+      const next = event.key === "Home" ? 0 : event.key === "End" ? options.length - 1 : (current + (event.key === "ArrowRight" ? 1 : -1) + options.length) % options.length;
+      onChange(options[next]);
+      const button = event.currentTarget.querySelectorAll<HTMLButtonElement>("button")[next];
+      button?.focus({ preventScroll: true });
+      button?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }}>
       <button
         className={`professional-tab ${activeGroup === "all" ? "is-active" : ""}`}
         type="button"

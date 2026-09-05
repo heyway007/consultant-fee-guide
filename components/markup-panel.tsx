@@ -150,7 +150,7 @@ export default function MarkupPanel({ factors, degree, experience, baseRate, sup
           </div>
         </div>
       ) : (
-        <div className="factor-empty">ไม่พบ Markup Factor สำหรับเงื่อนไขนี้</div>
+        <div className="factor-empty">{selectedRole ? "ไม่พบ Markup Factor สำหรับเงื่อนไขนี้" : "เลือกวุฒิและประสบการณ์ หรือกำหนดบทบาทเพื่อดูตัวคูณ"}</div>
       )}
       <MarkupCalculator baseRate={baseRate} markupFactor={selectedFactor?.factor_value ?? null} />
       </div>

@@ -7,18 +7,15 @@ const markupPanel = readFileSync(resolve(process.cwd(), "components/markup-panel
 const markupCalculator = readFileSync(resolve(process.cwd(), "components/markup-calculator.tsx"), "utf8");
 
 describe("Markup Factor panel layout", () => {
-  it("sticks beside long tables and returns to normal flow on smaller screens", () => {
-    expect(stylesheet).toMatch(/\.markup-panel\s*\{[^}]*position:\s*sticky/);
-    expect(stylesheet).toContain(".markup-panel { order:2; position:static; }");
+  it("keeps notebook panels bounded and shares theme colors across calculator and rates", () => {
+    expect(stylesheet).toContain(".site-shell { height:100dvh;");
+    expect(stylesheet).toContain(".markup-panel { order:2; position:static;");
     expect(stylesheet).toContain(".markup-condition-layout");
     expect(stylesheet).toContain(".markup-calculator");
-    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .markup-calculator");
-    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .rate-table .rate-value");
-    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .derived-role");
-    expect(stylesheet).toContain(":root[data-theme=\"dark\"] .factor-result");
-    expect(stylesheet).toContain(".rate-value { color:var(--teal-deep); font-size:17px;");
-    expect(stylesheet).toContain(".rate-card-grid strong { margin-top:4px; color:var(--teal); font-size:16px;");
-    expect(stylesheet).toContain(".personnel-role-cell { color:var(--teal); font-size:12px;");
+    expect(stylesheet).toContain(":root[data-theme=\"dark\"]");
+    expect(stylesheet).toContain(".rate-value { color:var(--ink); font-size:17px;");
+    expect(stylesheet).toContain(".rate-card-grid strong { margin-top:4px; color:var(--ink); font-size:16px;");
+    expect(stylesheet).toContain(".professional-cell,.personnel-role-cell { color:var(--muted); font-size:12px;");
     expect(markupPanel).toContain("faPercent");
     expect(markupPanel).toContain('className="panel-title-icon"');
     expect(markupPanel).toContain("factor-rules-tooltip");

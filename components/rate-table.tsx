@@ -132,6 +132,7 @@ export default function RateTable({ rows, selectedDegree, paginationKey = "" }: 
               <div className={degreeClass(selectedDegree, "master")}><span>โท</span><strong>{formatRate(row.master_rate)}</strong></div>
               <div className={degreeClass(selectedDegree, "doctorate")}><span>เอก</span><strong>{formatRate(row.doctorate_rate)}</strong></div>
             </div>
+            <p className="rate-card-role">{formatPersonnelRoles(row, selectedDegree)}</p>
           </article>
         ))}
       </div>
