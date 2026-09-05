@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
 import type { W16RateRow } from "@/lib/types";
 import RateTable from "@/components/rate-table";
 
@@ -17,6 +17,37 @@ const row: W16RateRow = {
 };
 
 describe("RateTable", () => {
+  afterEach(cleanup);
+  it("paginates desktop and mobile rows and resets on page size or filter changes", () => {
+    const rows = Array.from({ length: 61 }, (_, index) => ({ ...row, id: `row-${index}`, experience_label: `${index + 1} ปี` }));
+    const { container, rerender } = render(<RateTable rows={rows} selectedDegree="all" paginationKey="initial" />);
+    const assertRows = (count: number) => {
+      expect(container.querySelectorAll("tbody tr")).toHaveLength(count);
+      expect(container.querySelectorAll(".rate-card")).toHaveLength(count);
+    };
+    assertRows(10);
+    expect(screen.getByRole("button", { name: "หน้าก่อนหน้า" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "หน้าถัดไป" }));
+    expect(screen.getByRole("status")).toHaveTextContent("11–20 จาก 61 รายการ");
+    expect(container.querySelector("tbody tr th")).toHaveTextContent("11 ปี");
+    rerender(<RateTable rows={rows} selectedDegree="all" paginationKey="new-filter" />);
+    expect(screen.getByRole("status")).toHaveTextContent("1–10 จาก 61 รายการ");
+    rerender(<RateTable rows={rows} selectedDegree="all" paginationKey="initial" />);
+    expect(screen.getByRole("status")).toHaveTextContent("1–10 จาก 61 รายการ");
+    const select = screen.getByRole("combobox", { name: "จำนวนรายการต่อหน้า" });
+    fireEvent.change(select, { target: { value: "20" } });
+    assertRows(20);
+    fireEvent.click(screen.getByRole("button", { name: "หน้าสุดท้าย" }));
+    assertRows(1);
+    expect(screen.getByRole("button", { name: "หน้าถัดไป" })).toBeDisabled();
+    fireEvent.change(select, { target: { value: "50" } });
+    assertRows(50);
+    expect(screen.getByRole("status")).toHaveTextContent("1–50 จาก 61 รายการ");
+    fireEvent.change(select, { target: { value: "all" } });
+    assertRows(61);
+    expect(screen.getByRole("button", { name: "หน้าถัดไป" })).toBeDisabled();
+  });
+
   it("renders Thai degree headings and the selected degree state", () => {
     render(<RateTable rows={[row]} selectedDegree="master" />);
 

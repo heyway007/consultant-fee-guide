@@ -1,11 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import type { W16Degree, W16RateRow } from "@/lib/types";
 import { getPersonnelRole as derivePersonnelRole } from "@/lib/markup-factors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faClock, faGraduationCap, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faBriefcase, faChevronDown, faChevronLeft, faChevronRight, faClock, faGraduationCap, faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 type RateTableProps = {
   rows: W16RateRow[];
   selectedDegree: W16Degree | "all";
+  paginationKey?: string;
 };
 
 const numberFormatter = new Intl.NumberFormat("th-TH");
@@ -36,9 +40,38 @@ function formatPersonnelRoles(row: W16RateRow, selectedDegree: W16Degree | "all"
     .join(" · ");
 }
 
-export default function RateTable({ rows, selectedDegree }: RateTableProps) {
+export default function RateTable({ rows, selectedDegree, paginationKey = "" }: RateTableProps) {
+  const [pageSize, setPageSize] = useState("10");
+  const resultKey = `${paginationKey}:${selectedDegree}:${rows.map((row) => row.id).join(",")}`;
+  const [pagination, setPagination] = useState({ key: resultKey, page: 1 });
+  if (pagination.key !== resultKey) {
+    setPagination({ key: resultKey, page: 1 });
+  }
+  const limit = pageSize === "all" ? Math.max(1, rows.length) : Number(pageSize);
+  const pageCount = Math.max(1, Math.ceil(rows.length / limit));
+  const page = pagination.key === resultKey ? Math.min(pagination.page, pageCount) : 1;
+  const start = (page - 1) * limit;
+  const pageRows = rows.slice(start, start + limit);
+  const goToPage = (nextPage: number) => setPagination({ key: resultKey, page: nextPage });
+
   return (
     <div className="rate-table-shell">
+      <div className="table-pagination-toolbar">
+        <label className="page-size-label">
+          แสดง
+          <span className="select-control">
+            <select aria-label="จำนวนรายการต่อหน้า" value={pageSize} onChange={(event) => { setPageSize(event.target.value); goToPage(1); }}>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="all">ทั้งหมด</option>
+            </select>
+            <FontAwesomeIcon icon={faChevronDown} className="select-icon" aria-hidden="true" />
+          </span>
+          รายการ
+        </label>
+        <span role="status">{rows.length ? start + 1 : 0}–{Math.min(start + limit, rows.length)} จาก {numberFormatter.format(rows.length)} รายการ</span>
+      </div>
       <div className="rate-table-scroll">
         <table className="rate-table">
           <colgroup>
@@ -58,7 +91,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {pageRows.map((row) => (
               <tr key={row.id}>
                 <th scope="row">
                   <span className="experience-number">{row.experience_label}</span>
@@ -75,7 +108,7 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
         </table>
       </div>
       <div className="rate-cards">
-        {rows.map((row) => (
+        {pageRows.map((row) => (
           <article className="rate-card" key={row.id}>
             <div className="rate-card-heading">
               <div><span className="experience-number">{row.experience_label}</span><span className="experience-caption">ประสบการณ์</span></div>
@@ -89,6 +122,13 @@ export default function RateTable({ rows, selectedDegree }: RateTableProps) {
           </article>
         ))}
       </div>
+      <nav className="table-pagination" aria-label="เปลี่ยนหน้าตาราง">
+        <button type="button" onClick={() => goToPage(1)} disabled={page === 1}>หน้าแรก</button>
+        <button type="button" aria-label="หน้าก่อนหน้า" onClick={() => goToPage(page - 1)} disabled={page === 1}><FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" /></button>
+        <span>หน้า {page} / {pageCount}</span>
+        <button type="button" aria-label="หน้าถัดไป" onClick={() => goToPage(page + 1)} disabled={page === pageCount}><FontAwesomeIcon icon={faChevronRight} aria-hidden="true" /></button>
+        <button type="button" onClick={() => goToPage(pageCount)} disabled={page === pageCount}>หน้าสุดท้าย</button>
+      </nav>
     </div>
   );
 }
